@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import Navbar from "../components/navbar/Navbar";
 import VideoPlayer from "../components/anime-player/VideoPlayer";
+import CustomVideoPlayer from "../components/anime-player/CustomVideoPlayer";
 
 export default function AnimePlayerPage() {
     // Extract the episodeId from the URL
@@ -56,6 +57,7 @@ export default function AnimePlayerPage() {
                     <div className="col-12 d-flex justify-content-center align-items-center">
                         {episodeId ? (
                             // TODO Add a Server dropdown box to choose server and quality and name of current episode
+                            // <CustomVideoPlayer />
                             <VideoPlayer episodeUrl={episodeUrl} episodeId={episodeId} lastEpisode={lastEpisode} />
                         ) : (
                             <p>Loading...</p>

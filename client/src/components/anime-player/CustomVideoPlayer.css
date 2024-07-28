@@ -1,0 +1,290 @@
+/* Container for the entire video player */
+.custom-videoplayer-div {
+    /** Set to relative so that the media controls can position itself based on the div */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    /** Ensure the <video> element does not exceed the container but takes up the entirety of the container */
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Video within div container styling */
+.custom-videoplayer-div video {
+    /* Make the video fill the container width */
+   width: 100%;
+   /* Maintain aspect ratio */
+   height: auto;
+
+   /** Setting the default width of the video */
+   max-width: 1080px;
+}
+
+/** Div Container for both the media buttons & media bar */
+.custom-videoplayer-controls {
+    /* fade-in/fade-out effect when the opacity of the media bar changes */
+    transition: opacity 0.5s;
+    
+    /** Hide the controls unless user hovers */
+    opacity: 0;
+}
+
+/* Show controls on hover */
+.custom-videoplayer-div:hover .custom-videoplayer-controls {
+    opacity: 1;
+}
+
+/* Container for reverse, play/pause, forward */
+.onscreen-media-controls {
+    /** For the controls to be laid horizontally */
+    display: flex;
+    flex-direction: row;
+
+    /** Align the controls in the center vertically */
+    align-items: center;
+
+    /** For controls to be in the center horizontally and separate from each other */
+    justify-content: center;
+
+    /** Since the parent container has relative position,  we can position the onscreen media controls to the top of the video */
+    position: absolute;
+
+    /** left & top adjusts the top left corner of the element to the center of the parent div */
+    left: 50%;
+    top: 50%;
+
+    /** transform centers the icons to the middle by shifting 50% of its width and height to the left and up */
+    transform: translate(-50%, -50%);
+}
+
+/** For responsive media controls */
+.responsive-media-container {
+    /* vw & vh are viewport width and heights, which are relative to the viewport width and height, making the icons scale with the screen size. */
+    width: 10vw;
+    height: 10vw;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 80px;
+    max-height: 80px;
+}
+.responsive-media-button {
+    font-size: 8vw;
+    color: white;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 60px;
+    max-height: 60px;
+}
+
+/* Custom Media Controls Bar at the bottom of the video */
+.custom-media-bar {
+    /* Positions the element absolutely relative to its nearest positioned ancestor, in this case the video div as its position is relative  */
+    /* Allows us to position the bar at the bottom */
+    position: absolute;
+    /* Ensure media bar starts from bottom left */
+    bottom: 0;
+    left: 0;
+
+    /* Set Dimensions of Bar */
+    width: 100%;
+    /* Set colors */
+    background: rgba(0, 0, 0, 0.5); /** 50% transparency */
+    color: white;
+
+    padding: 10px;
+    /* Sets the stack order of the element. Higher values are closer to the front. */
+    z-index: 10;
+
+    /* Ensure the seek bar is on top of the controls */
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+}
+
+/* Custom Media Controls in the Bar */
+.custom-media-bar-controls {
+    display: flex;
+    /* Arrange the Media Controls to be centered vertically and spread out nicely */
+    align-items: center;
+    /* First item is at start, while last is end, and everything else is spread out evenly */
+    justify-content: space-between;
+}
+
+/** For Smaller Media Control at the Media Bar */
+.responsive-mediabar-container {
+    /* vw & vh are viewport width and heights, which are relative to the viewport width and height, making the icons scale with the screen size. */
+    width: 3vw;
+    height: 3vw;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 40px;
+    max-height: 40px;
+}
+.responsive-mediabar-button {
+    font-size: 2vw;
+    color: white;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 30px;
+    max-height: 30px;
+}
+
+/* Styling for the Volume Slider */
+.volume-container {
+    /* To position the volume bar relative to this container */
+    position: relative;
+    /* To have vertical padding and margin */
+    display: inline-block;
+}
+
+/* Container for the Volume Bar */
+.volume-bar {
+    /* To put to volume container */
+    position: absolute;
+    /* Place the bar above the volume button */
+    bottom: 100%;
+    /* Center the bar horizontally */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Dimensions */
+    width: 5vw;
+    max-width: 50px;
+    height: 100px;
+    max-height: 200px;
+
+    /* Background to be a bit translucent */
+    background: rgba(0, 0, 0, 0.7);
+
+    /* Center the Slider horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Hide it until user hovers over it */
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+/* Custom styling for the Volume Reading */
+.volume-container span {
+    /* Position the reading at the top of the slider bar */
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: small;
+}
+
+/* To target the children of the volume container */
+.volume-container:hover .volume-bar {
+    opacity: 1;
+}
+
+/* For the actual bar itself */
+.volume-bar input[type="range"] {
+    /* Rotate the bar to make it vertical */
+    transform: rotate(-90deg);
+    /* Width to match the height of volume bar container */
+    width: 100%;
+}
+
+/* General Styling for Time and Volume Bars */
+.slider-bar {
+    /** Removes Default Styling for Browsers */
+    appearance: none;
+    -webkit-appearance: none;
+
+    /** Define Dimensions of Seek Bar. Set width as a fraction of the video width */
+    width: 100%;
+    height: 5px;
+    
+    /** Setting the Color and Shape of the Volume Bar */
+    /* background: #57AAB2; */
+    background: #78A2D2;
+    border-radius: 5px;
+
+    /* Remove default outline */
+    outline: none;
+    /* Set vertical margins to separate from other elements */
+    margin: 0 5px;
+}
+
+/* Custom styling for seek bar thumb */
+.slider-bar::-webkit-slider-thumb {
+    /* Removes default styling by chrome browsers */
+    -webkit-appearance: none;
+
+    /* Dimensions of the Thumb */
+    width: 10px;
+    height: 10px;
+
+    background: #fff;
+    cursor: pointer;
+    /* Rounded to make a circle */
+    border-radius: 50%;
+}
+
+/* Custom styling for range thumb on other browsers */
+.slider-bar::-moz-range-thumb {
+    /* Dimensions of the Thumb */
+    width: 10px;
+    height: 10px;
+
+    /* Color */
+    background: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Container for all the buttons on the left */
+.media-buttons-container {
+    /* Ensure all the buttons are level */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* TODO Full Screen Styles */
+
+
+/* Spinner for loading state */
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 4px solid #333;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}

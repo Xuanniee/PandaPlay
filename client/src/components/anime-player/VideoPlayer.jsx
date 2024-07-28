@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { Link, useLocation } from 'react-router-dom';
 
+import CustomVideoPlayer from './CustomVideoPlayer';
+
 /**
  * Function to load and stream a particular anime based on videoUrl
  * @param {String} videoUrl 
@@ -35,33 +37,6 @@ export default function VideoPlayer({ episodeUrl, episodeId, lastEpisode }) {
     console.log('Previous Episode URL:', prevEpUrl);
     console.log('Next Episode URL:', nextEpUrl);
 
-    // return(
-    //     <>
-    //         <div className='container-fluid'>
-    //             <div className='row'>
-    //                 <div className='col text-left'>
-    //                     {/** TODO Add next episode and previous episode */}
-    //                     {prevEp >= 1 ? (
-    //                         <Link to={prevEpUrl}>&larr; Episode {prevEp}</Link>
-    //                     ) : (
-    //                         <p>No prev ep</p>
-    //                     )}
-    //                 </div>
-    //                 <div className='col text-right'>
-    //                     {nextEp <= lastEpisode ? (
-    //                         <Link to={nextEpUrl}>Episode {nextEp} &rarr;</Link>
-    //                     ) : (
-    //                         <p>No next ep</p>
-    //                     )}
-    //                 </div>    
-    //             </div>
-
-    //             <div className='col'>
-    //                 <ReactPlayer key={episodeId} url={episodeUrl} controls={true} loop={false} />
-    //             </div>
-    //         </div>
-    //     </>
-    // );
     return (
         <div className='container-fluid'>
             <div className='row'>
@@ -87,7 +62,8 @@ export default function VideoPlayer({ episodeUrl, episodeId, lastEpisode }) {
 
             <div className='row'>
                 <div className='col'>
-                    <ReactPlayer key={episodeId} url={episodeUrl} controls={true} loop={false} />
+                    {/* <ReactPlayer key={episodeId} url={episodeUrl} controls={true} loop={false} /> */}
+                    <CustomVideoPlayer episodeId={episodeId} videoUrl={episodeUrl} controls={false} loop={false} />
                 </div>
             </div>
         </div>
