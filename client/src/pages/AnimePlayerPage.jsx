@@ -14,7 +14,8 @@ export default function AnimePlayerPage() {
     useEffect(() => {
         const retrieveAnimeStreamLink = async () => {
             try {
-                const res = await fetch("http://localhost:3000/api/anime/fetch-stream-link", {
+                // const res = await fetch("http://localhost:3000/api/anime/fetch-stream-link", {
+                const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-stream-link", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

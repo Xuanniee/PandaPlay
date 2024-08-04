@@ -15,7 +15,9 @@ export default function AnimeProfilePage() {
         const fetchAnimeData = async () => {
             try {
                 // Retrieve the details by POSTing the animeId
-                const res = await fetch("http://localhost:3000/api/anime/fetch-info", {
+                // For local deployment
+                // const res = await fetch("http://:3000/api/anime/fetch-info", {
+                const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-info", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

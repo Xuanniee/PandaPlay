@@ -20,7 +20,8 @@ export default function AnimeSearchResultsPage({ }) {
                 if (pageNumber !== undefined) {
                     reqBody.pageNumber = pageNumber;
                 }
-                const res = await fetch("http://localhost:3000/api/anime/fetch-search-results", {
+                // const res = await fetch("http://localhost:3000/api/anime/fetch-search-results", {
+                const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-search-results", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
