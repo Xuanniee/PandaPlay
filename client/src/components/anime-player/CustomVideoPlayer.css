@@ -8,6 +8,9 @@
     /** Ensure the <video> element does not exceed the container but takes up the entirety of the container */
     max-width: 100%;
     width: 100%;
+
+    /* Setting aspect ratio to prevent the video player from resizing after the metadata arrives */
+    aspect-ratio: 16 / 9;
 }
 
 /* Video within div container styling */
@@ -19,6 +22,40 @@
 
    /** Setting the default width of the video */
    max-width: 1080px;
+}
+
+/** Full screen Settings */
+.custom-videoplayer-div:fullscreen video {
+    width: 100%;
+    /* To maintain aspect ratio */
+    height: auto;
+
+    /* The object-fit CSS property defines how the content of a replaced element, such as an <img> or <video>, should be resized to fit its container */
+    object-fit: contain; /*Maintain aspect-ratio */
+
+    /* Remove max-width so that the video element can go full screen as well */
+    max-width: none;
+}
+
+.custom-videoplayer-div:-webkit-full-screen video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* For Safari */
+    max-width: none;
+}
+
+.custom-videoplayer-div:-moz-full-screen video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* For Firefox */
+    max-width: none;
+}
+
+.custom-videoplayer-div:-ms-fullscreen video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* For IE/Edge */
+    max-width: none;
 }
 
 /** Div Container for both the media buttons & media bar */

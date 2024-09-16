@@ -31,20 +31,34 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // HTTP Live Streaming (HLS)
     useEffect(() => {
         // If videoUrl is not available, do nothing instead of adding an intentional delay
         if (!videoUrl) {
             return;
         }
-
+        
+        // Library to play HLS streams in browsers that do not natively support it
+        // Instance of HLS to load video and handle playback
         const hls = new Hls();
+
+        // Check if the browers requires HLS
         if (Hls.isSupported()) {
+            // Load the Video
             hls.loadSource(videoUrl);
+            // Attach the HLS stream to the video HTML element
             hls.attachMedia(videoRef.current);
+            
+            // Event fired when HLS manifest file is parsed and video is ready to be played
             hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                setLoading(false); // Video is ready to play
+                const videoElement = videoRef.current;
+                setVideoDuration(videoElement.duration);
+                // Video is ready to play after we determined the duration
+                setLoading(false); 
                 videoRef.current.play();
             });
+
+            // Event fired when there is an error with playing with HLS streams
             hls.on(Hls.Events.ERROR, (_, data) => {
                 switch (data.fatal) {
                     case Hls.ErrorTypes.NETWORK_ERROR:
@@ -62,12 +76,16 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
                 }
                 setLoading(false); // Stop loading on error
             });
+        } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+            // Fallback for Safari which natively supports HLS
+            videoRef.current.src = videoUrl;
         } else {
-            setError('HLS is not supported in this browser.');
-            setLoading(false); // Stop loading on error
+            setError('HLS not supported in this browser.');
+            setLoading(false);
         }
 
         return () => {
+            // Clean up the instance
             hls.destroy();
         };
     }, [videoUrl]); // Only re-run effect when videoUrl changes
@@ -126,6 +144,14 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
     /**
      * General Helper Functions
      */
+    // Triggered when video metadata like dimensions have been loaded
+    const handleLoadedMetaData = () => {
+        // Set duration for max value of seek bar
+        const currVideoDuration = videoRef.current.duration;
+        setVideoDuration(currVideoDuration);
+        setLoading(false);
+    };
+
     const handleVolumeChange = (e) => {
         // Retrieve the New Volume user wants
         const newVolume = parseFloat(e.target.value);
@@ -137,13 +163,6 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
         // Get the current timestamp
         const newTimestamp = videoRef.current.currentTime;
         setCurrentTime(newTimestamp);
-    };
-
-    // Triggered when video metadata like dimensions have been loaded
-    const handleLoadedMetaData = () => {
-        // Set duration for max value of seek bar
-        const currVideoDuration = videoRef.current.duration;
-        setVideoDuration(currVideoDuration);
     };
 
     // When user manually changed the timestamp
@@ -179,20 +198,26 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
         setVolume(videoRef.current.volume);
     };
 
+    /**
+     * Set entire container to full screen.
+     * However, video element needs to be made responsive or it will not be full screen as well.
+     */
     const toggleFullscreen = () => {
-        const element = videoRef.current;
+        // Retrieve the entire video player container, not just the video element
+        const videoPlayerContainer = document.querySelector('.custom-videoplayer-div');
+        // const element = videoRef.current; NOT THIS ONLY
 
         // Check if currently full screen
         if (!fullScreen) {
             // Not Full Screen
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.mozRequestFullScreen) { // Firefox
-                element.mozRequestFullScreen();
-            } else if (element.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                element.webkitRequestFullscreen();
-            } else if (element.msRequestFullscreen) { // IE/Edge
-                element.msRequestFullscreen();
+            if (videoPlayerContainer.requestFullscreen) {
+                videoPlayerContainer.requestFullscreen();
+            } else if (videoPlayerContainer.mozRequestFullScreen) { // Firefox
+                videoPlayerContainer.mozRequestFullScreen();
+            } else if (videoPlayerContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                videoPlayerContainer.webkitRequestFullscreen();
+            } else if (videoPlayerContainer.msRequestFullscreen) { // IE/Edge
+                videoPlayerContainer.msRequestFullscreen();
             }
 
             // Change state to full screen
@@ -228,7 +253,7 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetaData}
                 onError={() => setError('Error loading video. Please try again later.')}
-                width="640"
+                width="100%"
                 controls={false}
             />
 
