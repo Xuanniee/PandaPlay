@@ -6,10 +6,14 @@ import CustomVideoPlayer from './CustomVideoPlayer';
 
 /**
  * Function to load and stream a particular anime based on videoUrl
- * @param {String} videoUrl 
+ * @param {String} videoUrl @param {Integer} episodeId @param {Integer} lastEpisode @param {JSON} episodeSources
+ * episodeSources contains all the streaming links for various video qualities
  * @returns 
  */
-export default function VideoPlayer({ episodeUrl, episodeId, lastEpisode }) {
+export default function VideoPlayer({ episodeUrl, episodeId, lastEpisode, episodeSources, setEpisodeUrl }) {
+    // Hoisting the Loading State up so that the loader covers the video and next and prev episode button
+    const [loading, setLoading] = useState(true);
+
     const location = useLocation();
     const { pathname } = location;
     var currEpisode = null;
@@ -39,33 +43,60 @@ export default function VideoPlayer({ episodeUrl, episodeId, lastEpisode }) {
 
     return (
         <div className='container-fluid'>
-            <div className='row'>
-                <div className='col'>
-                    {prevEp >= 1 ? (
-                        <Link to={prevEpUrl} className='text-left'>&larr; Episode {prevEp}</Link>
-                    ) : (
-                        <p className='text-left'>No prev episode</p>
-                    )}
-                </div>
-                <div className='col'>
-                    <div className='row justify-content-end'>
-                        <div className='col-auto'>
-                            {nextEp <= lastEpisode ? (
-                                <Link to={nextEpUrl} className='text-right'>Episode {nextEp} &rarr;</Link>
+            {/* Render Next & Prev Ep with Video if only loading is stopped */}
+            {!loading && (
+                <>
+                    <div className='row'>
+                        <div className='col'>
+                            {prevEp >= 1 ? (
+                                <Link to={prevEpUrl} className='text-left'>
+                                    <button className='episode-btn'>
+                                        &larr; Episode {prevEp}
+                                    </button>
+                                </Link>
                             ) : (
-                                <p className='text-right'>No next episode</p>
+                                <></>
+                                // <p className='text-left'>No prev episode</p>
                             )}
                         </div>
+                        <div className='col'>
+                            <div className='row justify-content-end'>
+                                <div className='col-auto'>
+                                    {nextEp <= lastEpisode ? (
+                                        <Link to={nextEpUrl} className='text-right'>
+                                            <button className='episode-btn'>
+                                                Episode {nextEp} &rarr;
+                                            </button>
+                                        </Link>
+                                    ) : (
+                                        <></>
+                                        // <p className='text-right'>No next episode</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            )}
 
+            {/* Cannot be wrapped with loading since we need video to be loaded to change the useState. Also within got logic to handle alr */}
             <div className='row'>
                 <div className='col'>
                     {/* <ReactPlayer key={episodeId} url={episodeUrl} controls={true} loop={false} /> */}
-                    <CustomVideoPlayer episodeId={episodeId} videoUrl={episodeUrl} controls={false} loop={false} />
+                    <CustomVideoPlayer 
+                        episodeId={episodeId} 
+                        episodeUrl={episodeUrl} 
+                        controls={false} 
+                        loop={false}
+                        loading={loading}
+                        setLoading={setLoading} 
+                        episodeSources={episodeSources}
+                        // Pass the setter to change the episodeURL as well
+                        setEpisodeUrl={setEpisodeUrl}
+                    />
                 </div>
             </div>
+                
         </div>
     );
 }

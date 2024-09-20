@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { act, useEffect, useRef, useState } from "react";
 import PlayCircleFilledTwoToneIcon from '@mui/icons-material/PlayCircleFilledTwoTone';
 import PauseCircleFilledTwoToneIcon from '@mui/icons-material/PauseCircleFilledTwoTone';
 import FastRewindTwoToneIcon from '@mui/icons-material/FastRewindTwoTone';
@@ -17,24 +17,38 @@ import Hls from 'hls.js';
 // Import CSS
 import './CustomVideoPlayer.css';
 
-export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop }) {
+/**
+ * Composable function that renders the entire video player (just the player)
+ * @param {JSON} episodeSources
+ * episodeSources contains all the streaming links for various video qualities
+ * 
+ * @returns 
+ */
+export default function CustomVideoPlayer({ episodeId, episodeUrl, controls, loop, loading, setLoading, episodeSources, setEpisodeUrl }) {
     // useRef hook to get a direct reference to a DOM element & to store any mutable value that needs to persist across renders but should not trigger re-renders when it changes
     const videoRef = useRef(null);
     // useState Hooks to track the states of various video playback controls
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true);
     const [volume, setVolume] = useState(0.5);
+    const [oldVolume, setOldVolume] = useState(0.5);
     const [currentTime, setCurrentTime] = useState(0);
     const [videoDuration, setVideoDuration] = useState(0);
     const [fullScreen, setFullScreen] = useState(false);
 
+    // useStates for Settings
+    const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+    // Manages which sub-menu under settings is active e.g. quality or speed
+    const [activeMenu, setActiveMenu] = useState(null);
+    // Video Quality
+    const [videoQuality, setVideoQuality] = useState("Default");
+
     // Track Loading & Error states
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     // HTTP Live Streaming (HLS)
     useEffect(() => {
-        // If videoUrl is not available, do nothing instead of adding an intentional delay
-        if (!videoUrl) {
+        // If episodeUrl is not available, do nothing instead of adding an intentional delay
+        if (!episodeUrl) {
             return;
         }
         
@@ -45,7 +59,7 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
         // Check if the browers requires HLS
         if (Hls.isSupported()) {
             // Load the Video
-            hls.loadSource(videoUrl);
+            hls.loadSource(episodeUrl);
             // Attach the HLS stream to the video HTML element
             hls.attachMedia(videoRef.current);
             
@@ -78,7 +92,7 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
             });
         } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
             // Fallback for Safari which natively supports HLS
-            videoRef.current.src = videoUrl;
+            videoRef.current.src = episodeUrl;
         } else {
             setError('HLS not supported in this browser.');
             setLoading(false);
@@ -88,7 +102,7 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
             // Clean up the instance
             hls.destroy();
         };
-    }, [videoUrl]); // Only re-run effect when videoUrl changes
+    }, [episodeUrl]); // Only re-run effect when episodeUrl changes
     
     useEffect(() => {
         if (videoRef.current) {
@@ -142,6 +156,46 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
     }
 
     /**
+     * Helper Function for Settings
+     */
+    // Function to Open the Menu
+    const toggleSettingsMenu = () => {
+        // Toggle between the visibility settings
+        setIsSettingsVisible(!isSettingsVisible);
+
+        // Reset activeMenu whenever we open main or close main menu
+        setActiveMenu(null);
+    }
+
+    // Decide which menu to open
+    const handleSubMenuSelection = (menu) => {
+        setActiveMenu(menu);
+    }
+
+    const handleStreamQualityChange = (episodeSource) => {
+        // Parse the source to change the stream url
+        const { url, isM3U8, quality } = episodeSource;
+
+        // Change the Stream Quality
+        setEpisodeUrl(url);
+        // Update the Read Value on the Settings
+        setVideoQuality(quality);
+    }
+
+    const openSettingsMenu = () => {
+        // Open and Close the Main Settings Menu
+        if (activeMenu === null) {
+            // OpenMenu
+            setActiveMenu("main");
+        }
+        else {
+            // Close Menu
+            setActiveMenu(null);
+        }
+        
+    }
+
+    /**
      * General Helper Functions
      */
     // Triggered when video metadata like dimensions have been loaded
@@ -192,10 +246,20 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
      * Helper Function for the Media Bar
      */
     const toggleMute = () => {
-        // Set the video to 0 volume
-        videoRef.current.volume = 0;
-        // Update for visual
-        setVolume(videoRef.current.volume);
+        // Check if already muted
+        if (volume > 0) {
+            // Store old volume
+            setOldVolume(volume);
+            // Set the video to 0 volume
+            videoRef.current.volume = 0;
+            // Update for visual
+            setVolume(videoRef.current.volume);
+        }
+        else {
+            // Unmute
+            videoRef.current.volume = oldVolume;
+            setVolume(oldVolume);
+        }
     };
 
     /**
@@ -246,7 +310,12 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
     return (
         <div className="custom-videoplayer-div">
             {/** Disable the Default Video Controls so that we can provide our own */}
-            {loading && <div className="spinner"></div>}
+            {loading && (
+                <div className="loader-container">
+                    <div className="foot-loader"></div>
+                    <div className="text-loader"></div>
+                </div>
+            )}
             {error && <p className="error-message">{error}</p>}
             <video
                 ref={videoRef}
@@ -255,6 +324,10 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
                 onError={() => setError('Error loading video. Please try again later.')}
                 width="100%"
                 controls={false}
+                // Ensure video always play first so we can standardise the icon
+                autoPlay
+                // Add the loaded className if no longer loading
+                className={`custom-videoplayer-div video ${loading ? "" : "loaded"}`} 
             />
 
             {/** custom-videoplayer-controls represents the div covering the entire video */}
@@ -280,7 +353,7 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
                         <input
                             type="range"    
                             min="0"
-                            max={videoDuration}
+                            max={isNaN(videoDuration) ? 0 : videoDuration} // Fallback to 0 if videoDuration is NaN
                             step="0.1"
                             value={currentTime}
                             onChange={handleSeekChange}
@@ -328,9 +401,53 @@ export default function CustomVideoPlayer({ episodeId, videoUrl, controls, loop 
                                     <SubtitlesIcon className="responsive-mediabar-button" />
                                 </IconButton>
 
-                                <IconButton className="responsive-mediabar-container">
-                                    <SettingsApplicationsTwoToneIcon className="responsive-mediabar-button" />
-                                </IconButton>
+                                <div className="settings-container">
+                                    {/* Settings Icon */}
+                                    <IconButton onClick={() => openSettingsMenu()} className="responsive-mediabar-container">
+                                        <SettingsApplicationsTwoToneIcon className="responsive-mediabar-button" />
+                                    </IconButton>
+
+                                    {/* Setting Menu - Show when no submenu is active */}
+                                    <div className="settings-menu-container">
+                                        {/* Show when no submenu active */}
+                                        {activeMenu === "main" && (
+                                            <ul className={`main-settings-menu ${activeMenu === "main" ? "menu-visible" : ""}`}>
+                                                <li onClick={() => handleSubMenuSelection("subtitles")}>Subtitles</li>
+                                                <li onClick={() => handleSubMenuSelection("speed")}>Speed</li>
+                                                <li onClick={() => handleSubMenuSelection("quality")}>Quality</li>
+                                            </ul>
+                                        )}
+
+                                        {/* Sub-Menus */}
+                                        {activeMenu === "subtitles" && (
+                                            // Pass menu-visible classs if curr submenu is active
+                                            <ul className={`subtitles-menu ${activeMenu === "subtitles" ? 'menu-visible' : ''}`}>
+                                                <li onClick={() => handleSubMenuSelection("main")}>&lt; Subtitles</li>
+                                                {/* TODO placeholder currently */}
+                                                <li>English</li>
+                                                <li>Chinese</li>
+                                            </ul>
+                                        )}
+                                        
+                                        {activeMenu === "speed" && (
+                                            <ul className={`speed-menu ${activeMenu === "speed" ? "menu-visible" : ""}`}>
+                                                <li onClick={() => handleSubMenuSelection("main")}>&lt; Speed</li>
+                                            </ul>
+                                        )}
+
+                                        {activeMenu === "quality" && (
+                                            <ul className={`quality-menu ${activeMenu === "quality" ? "menu-visible" : ""}`}>
+                                                <li onClick={() => handleSubMenuSelection("main")}>&lt; Quality (videoQuality)</li>
+                                                {episodeSources.map((source, index) => (
+                                                    // Show the available qualities to be clicked except for Backup
+                                                    (source.quality != "backup") ? (
+                                                        <li onClick={() => handleStreamQualityChange(source)} key={index}>{ source.quality }</li>
+                                                    ) : null
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
+                                </div>
 
                                 <IconButton className="responsive-mediabar-container" onClick={toggleFullscreen}>
                                     <FullscreenTwoToneIcon className="responsive-mediabar-button" />

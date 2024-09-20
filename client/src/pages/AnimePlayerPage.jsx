@@ -9,6 +9,8 @@ export default function AnimePlayerPage() {
     // Extract the episodeId from the URL
     const { episodeId, lastEpisode } = useParams();
     const [episodeUrl, setEpisodeUrl] = useState(null);
+    // Track the state containing the various stream qualities
+    const [episodeSources, setEpisodeSources] = useState(null);
 
     // API call to get URL for stream
     useEffect(() => {
@@ -31,6 +33,9 @@ export default function AnimePlayerPage() {
                 const streamData = await res.json();
                 const episodeSources = streamData.sources;
                 const defaultQualityIndex = episodeSources.findIndex(source => source.quality === "default");
+
+                // Update all the streaming links and pass it to the player
+                setEpisodeSources(episodeSources);
 
                 if (defaultQualityIndex !== -1) {
                     // Set the default quality if found
@@ -59,7 +64,7 @@ export default function AnimePlayerPage() {
                         {episodeId ? (
                             // TODO Add a Server dropdown box to choose server and quality and name of current episode
                             // <CustomVideoPlayer />
-                            <VideoPlayer episodeUrl={episodeUrl} episodeId={episodeId} lastEpisode={lastEpisode} />
+                            <VideoPlayer episodeUrl={episodeUrl} episodeId={episodeId} lastEpisode={lastEpisode} episodeSources={episodeSources} setEpisodeUrl={setEpisodeUrl} />
                         ) : (
                             <p>Loading...</p>
                         )}
