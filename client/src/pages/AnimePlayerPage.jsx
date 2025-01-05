@@ -16,8 +16,8 @@ export default function AnimePlayerPage() {
     useEffect(() => {
         const retrieveAnimeStreamLink = async () => {
             try {
-                // const res = await fetch("http://localhost:3000/api/anime/fetch-stream-link", {
-                const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-stream-link", {
+                const res = await fetch("http://localhost:3000/api/anime/fetch-stream-link", {
+                // const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-stream-link", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -36,6 +36,9 @@ export default function AnimePlayerPage() {
 
                 // Update all the streaming links and pass it to the player
                 setEpisodeSources(episodeSources);
+
+                console.log(`Episode Soruces: `);
+                console.log(episodeSources);
 
                 if (defaultQualityIndex !== -1) {
                     // Set the default quality if found

@@ -99,6 +99,11 @@
     opacity: 1;
 }
 
+/* Slide Bar Colours - Played, Unplayed, Buffered */
+.custom-videoplayer-controls .slider-bar {
+
+}
+
 /* Container for reverse, play/pause, forward */
 .onscreen-media-controls {
     /** For the controls to be laid horizontally */
@@ -354,8 +359,9 @@
     height: 5px;
     
     /** Setting the Color and Shape of the Volume Bar */
-    /* background: #57AAB2; */
-    background: #78A2D2;
+    /* background default is gray to indicate unplayed */
+    background: #d3d3d3;
+    /* background: #78A2D2; */
     border-radius: 5px;
 
     /* Remove default outline */

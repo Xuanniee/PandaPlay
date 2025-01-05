@@ -8,10 +8,9 @@ import SubtitlesIcon from '@mui/icons-material/Subtitles';
 import SettingsApplicationsTwoToneIcon from '@mui/icons-material/SettingsApplicationsTwoTone';
 import VolumeUpTwoToneIcon from '@mui/icons-material/VolumeUpTwoTone';
 import VolumeMuteTwoToneIcon from '@mui/icons-material/VolumeMuteTwoTone';
-
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import { IconButton } from '@mui/material';
+import { duration, IconButton } from '@mui/material';
 import Hls from 'hls.js';
 
 // Import CSS
@@ -27,13 +26,18 @@ import './CustomVideoPlayer.css';
 export default function CustomVideoPlayer({ episodeId, episodeUrl, controls, loop, loading, setLoading, episodeSources, setEpisodeUrl }) {
     // useRef hook to get a direct reference to a DOM element & to store any mutable value that needs to persist across renders but should not trigger re-renders when it changes
     const videoRef = useRef(null);
+    
     // useState Hooks to track the states of various video playback controls
     const [isPlaying, setIsPlaying] = useState(true);
     const [volume, setVolume] = useState(0.5);
     const [oldVolume, setOldVolume] = useState(0.5);
+    const [fullScreen, setFullScreen] = useState(false);
+
+    // Use States for Updating the Playback Seek Bar
     const [currentTime, setCurrentTime] = useState(0);
     const [videoDuration, setVideoDuration] = useState(0);
-    const [fullScreen, setFullScreen] = useState(false);
+    const [videoBuffered, setVideoBuffered] = useState([0, 0]);
+    const [seekBarStyle, setSeekBarStyle] = useState({});
 
     // useStates for Settings
     const [isSettingsVisible, setIsSettingsVisible] = useState(false);
@@ -42,67 +46,125 @@ export default function CustomVideoPlayer({ episodeId, episodeUrl, controls, loo
     // Video Quality
     const [videoQuality, setVideoQuality] = useState("Default");
 
-    // Track Loading & Error states
+    // Track Error states - Loading is passed from parent component (Video Player itself)
     const [error, setError] = useState(null);
 
-    // HTTP Live Streaming (HLS)
+    // Helper Function to make an HTTP request to my proxy server to get the m3u8 actual file
+    const fetchM3U8File = async () => {
+        try {
+            // Build the proxyUrl using the provided Url - ProxyURL/episodeURL
+            const proxyUrl = `http://localhost:3001/${episodeUrl}`;
+
+            // Library to play HLS streams in browsers that do not natively support it
+            // Instance of HLS to load video and handle playback
+            const hls = new Hls();
+
+            // Check if the browers supports HLS
+            if (Hls.isSupported()) {
+                // Loads the video using a proxied server to prevent a CORS error
+                hls.loadSource(proxyUrl);
+
+                // Attach the HLS stream to the video HTML element
+                hls.attachMedia(videoRef.current);
+                
+                // Event 1 - HLS manifest file is parsed and Video can be played
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    const videoElement = videoRef.current;
+                    setVideoDuration(videoElement.duration);
+                    // Video is ready to play after we determined the duration
+                    setLoading(false); 
+                    videoRef.current.play();
+                });
+
+                // Event 2 - Errors with playing with HLS streams
+                hls.on(Hls.Events.ERROR, (_, data) => {
+                    switch (data.fatal) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            setError('Network error while loading video.');
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            setError('Media error while loading video.');
+                            break;
+                        case Hls.ErrorTypes.OTHER_ERROR:
+                            setError('An unknown error occurred.');
+                            break;
+                        default:
+                            setError('An unexpected error occurred.');
+                            break;
+                    }
+                    setLoading(false); // Stop loading on error
+                });
+            } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+                // Fallback for Safari which natively supports HLS
+                videoRef.current.src = episodeUrl;
+            } else {
+                setError('HLS not supported in this browser.');
+                setLoading(false);
+            }
+
+            return () => {
+                // Clean up the instance
+                hls.destroy();
+            };
+
+        }
+        catch (err) {
+            console.error("Error fetching .m3u8 file:", err);
+            setError("Failed to load video stream.");
+            setLoading(false);
+        }
+    }
+
+    // HTTP Live Streaming (HLS) - Handles adaptive bitrate streaming
     useEffect(() => {
         // If episodeUrl is not available, do nothing instead of adding an intentional delay
         if (!episodeUrl) {
             return;
         }
-        
-        // Library to play HLS streams in browsers that do not natively support it
-        // Instance of HLS to load video and handle playback
-        const hls = new Hls();
 
-        // Check if the browers requires HLS
-        if (Hls.isSupported()) {
-            // Load the Video
-            hls.loadSource(episodeUrl);
-            // Attach the HLS stream to the video HTML element
-            hls.attachMedia(videoRef.current);
-            
-            // Event fired when HLS manifest file is parsed and video is ready to be played
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                const videoElement = videoRef.current;
-                setVideoDuration(videoElement.duration);
-                // Video is ready to play after we determined the duration
-                setLoading(false); 
-                videoRef.current.play();
-            });
+        fetchM3U8File();
+    }, [episodeUrl]); // Only re-run effect when episodeUrl changes
 
-            // Event fired when there is an error with playing with HLS streams
-            hls.on(Hls.Events.ERROR, (_, data) => {
-                switch (data.fatal) {
-                    case Hls.ErrorTypes.NETWORK_ERROR:
-                        setError('Network error while loading video.');
-                        break;
-                    case Hls.ErrorTypes.MEDIA_ERROR:
-                        setError('Media error while loading video.');
-                        break;
-                    case Hls.ErrorTypes.OTHER_ERROR:
-                        setError('An unknown error occurred.');
-                        break;
-                    default:
-                        setError('An unexpected error occurred.');
-                        break;
-                }
-                setLoading(false); // Stop loading on error
-            });
-        } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
-            // Fallback for Safari which natively supports HLS
-            videoRef.current.src = episodeUrl;
-        } else {
-            setError('HLS not supported in this browser.');
-            setLoading(false);
+    /**
+     * useEffect Hook to update the colors of slider bar for:
+     * Played, Unplayed and Buffered
+     * 
+     * Updates everytime currentTime is updated
+     */
+    useEffect(() => {
+        // Calculate the Buffered Video Percentage
+        // Only interested in the buffered ranges from currentTime onwards, assuming is the first range
+        const videoBufferedRanges = videoRef.current.buffered;
+        console.log(`Number of Video Ranges that are Buffered: ${videoBufferedRanges.length}`);
+
+        // Although this is a progressive buffering video, we need to consider all the video buffered ranges.
+        // Because user might skip ahead to another section, creating 2 buffered ranges
+        for (let i = 0; i < videoBufferedRanges.length; i += 1) {
+            console.log(`Start of Buffer: ${videoBufferedRanges.start(i)} End: ${videoBufferedRanges.end(i)}`);
+
+            // Update the useState for videosBuffered if empty or got new max
+            if ((videoBuffered == [0, 0]) || (videoBufferedRanges.end(i) > videoBuffered[1])) {
+                setVideoBuffered([
+                    videoBufferedRanges.start(i),
+                    videoBufferedRanges.end(i)
+                ]);
+            }
         }
 
-        return () => {
-            // Clean up the instance
-            hls.destroy();
-        };
-    }, [episodeUrl]); // Only re-run effect when episodeUrl changes
+        // Determine the currentTime and buffered percentage
+        const currTimePer = ((currentTime / videoDuration) * 100);
+        const bufferPer = (videoBuffered[1] / videoDuration) * 100;  // Buffered percentage
+
+        // Set the CSS as a linear gradient dynamically
+        setSeekBarStyle(
+            // Indicate direction, and what color to use for different segments
+            `linear-gradient(to right,
+                    #78A2D2 0% ${currTimePer}%,
+                    #C0D6E9 ${currTimePer}% ${bufferPer}%,
+                    #d3d3d3 ${bufferPer}% 100%
+            )`
+        );
+    }, [currentTime]);
     
     useEffect(() => {
         if (videoRef.current) {
@@ -302,6 +364,7 @@ export default function CustomVideoPlayer({ episodeId, episodeUrl, controls, loo
             setFullScreen(false);
         }
     };
+    
 
     const handleError = () => {
         setError('Error loading video. Please try again later.');
@@ -358,6 +421,9 @@ export default function CustomVideoPlayer({ episodeId, episodeUrl, controls, loo
                             value={currentTime}
                             onChange={handleSeekChange}
                             className="slider-bar"
+                            style={{
+                                background: seekBarStyle
+                            }}
                         />
                         {/** Bottom Media Bar for Controlling Media */}
                         <div className="custom-media-bar-controls">
