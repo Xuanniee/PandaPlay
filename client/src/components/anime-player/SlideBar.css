@@ -1,0 +1,157 @@
+/* General Styling for Time & Volume Seek Bars */
+.slider-bar {
+    /** Removes Default Styling for Browsers */
+    appearance: none;
+    -webkit-appearance: none;
+
+    /** Define Dimensions of Seek Bar. Set width as a fraction of the video width */
+    width: 100%;
+    height: 5px;
+    
+    /** Setting the Color and Shape of the Volume Bar */
+    /* background default is gray to indicate unplayed */
+    background: #d3d3d3;
+    /* background: #78A2D2; */
+    border-radius: 5px;
+
+    /* Remove default outline */
+    outline: none;
+    /* Set vertical margins to separate from other elements */
+    margin: 0 5px;
+}
+
+/* Custom styling for seek bar thumb */
+.slider-bar::-webkit-slider-thumb {
+    /* Removes default styling by chrome browsers */
+    -webkit-appearance: none;
+
+    /* Dimensions of the Thumb */
+    width: 10px;
+    height: 10px;
+
+    background: #fff;
+    cursor: pointer;
+    /* Rounded to make a circle */
+    border-radius: 50%;
+}
+
+/* Custom styling for range thumb on other browsers */
+.slider-bar::-moz-range-thumb {
+    /* Dimensions of the Thumb */
+    width: 10px;
+    height: 10px;
+
+    /* Color */
+    background: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* Styling for the Volume Slider */
+.volume-container {
+    /* To position the volume bar relative to this container */
+    position: relative;
+    /* To have vertical padding and margin */
+    display: inline-block;
+
+    padding: 0;
+    margin: 0;
+}
+
+/* Container for the Volume Bar */
+.volume-bar {
+    /* To put to volume container */
+    position: absolute;
+    /* Place the bar above the volume button */
+    bottom: 85%;
+    /* Center the bar horizontally */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Dimensions */
+    width: 5vw;
+    max-width: 50px;
+    height: 100px;
+    max-height: 200px;
+    border-radius: 20px;
+
+    /* Background to be a bit translucent */
+    background: rgba(0, 0, 0, 0.7);
+
+    /* Center the Slider horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Hide it until user hovers over it */
+    opacity: 0;
+    transition: opacity 0.5s;
+
+    /* Prevent hover effects on the volume slider itself */
+    pointer-events: none;
+}
+
+/* Custom styling for the Volume Reading */
+.volume-container span {
+    /* Position the reading at the top of the slider bar */
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-size: small;
+}
+
+/* To target the children of the volume container */
+.volume-container:hover .volume-bar {
+    opacity: 1;
+    pointer-events: auto; /* Enable interaction with the volume slider */
+}
+
+/* For the actual bar itself */
+.volume-bar input[type="range"] {
+    /* Rotate the bar to make it vertical */
+    transform: rotate(-90deg);
+    /* Width to match the height of volume bar container */
+    width: 100%;
+}
+
+.main-settings-menu, .subtitles-menu, .speed-menu, .quality-menu {
+    /* Position must be absolutely fixed to the parent, which is relative */
+    position: absolute;
+
+    /* Place the menu above the settings button */
+    bottom: 85%;
+    /* Center the menu horizontally */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Dimensions */
+    width: 10vw;
+    max-width: 300px;
+    height: auto;
+    border-radius: 5px;
+
+    /* Background to be a bit translucent */
+    background: rgba(0, 0, 0, 0.7);
+
+    /* Center the Menu horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+
+    /* Since column, main axis is vertical, which we want to center */
+    justify-content: center;
+    /* Horizontal we want items to be at the start and end */
+    align-items: flex-start;
+
+    /* Hide it until user hovers over it */
+    opacity: 0;
+    transition: opacity 0.5s;
+
+    /* Prevent hover effects on the volume slider itself */
+    pointer-events: none;
+
+    /* Remove the ul look */
+    list-style-type: none;
+}

@@ -1,0 +1,83 @@
+/* Container for reverse, play/pause, forward */
+.onscreen-media-controls {
+    /** For the controls to be laid horizontally */
+    display: flex;
+    flex-direction: row;
+
+    /** Align the controls in the center vertically */
+    align-items: center;
+
+    /** For controls to be in the center horizontally and separate from each other */
+    justify-content: center;
+
+    /** Since the parent container has relative position,  we can position the onscreen media controls to the top of the video */
+    position: absolute;
+
+    /** left & top adjusts the top left corner of the element to the center of the parent div */
+    left: 50%;
+    top: 50%;
+
+    /** transform centers the icons to the middle by shifting 50% of its width and height to the left and up */
+    transform: translate(-50%, -50%);
+}
+
+/** For responsive media controls */
+.responsive-media-container {
+    /* vw & vh are viewport width and heights, which are relative to the viewport width and height, making the icons scale with the screen size. */
+    width: 10vw;
+    height: 10vw;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 80px;
+    max-height: 80px;
+
+    /* Ensure controls are rounded with video or it will look weird */
+    border-radius: 10px;
+}
+.responsive-media-button {
+    font-size: 8vw;
+    color: white;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 60px;
+    max-height: 60px;
+}
+
+/** Full screen Settings */
+.custom-videoplayer-div:fullscreen video {
+    width: 100%;
+    /* To maintain aspect ratio */
+    height: auto;
+
+    /* The object-fit CSS property defines how the content of a replaced element, such as an <img> or <video>, should be resized to fit its container */
+    object-fit: cover; /*Maintain aspect-ratio and fill container, but might crop out parts of the video */
+
+    /* Remove max-width so that the video element can go full screen as well */
+    max-width: none;
+}
+
+.custom-videoplayer-div:-webkit-full-screen video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* For Safari */
+    max-width: none;
+}
+
+.custom-videoplayer-div:-moz-full-screen video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* For Firefox */
+    max-width: none;
+}
+
+.custom-videoplayer-div:-ms-fullscreen video {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* For IE/Edge */
+    max-width: none;
+}
+
