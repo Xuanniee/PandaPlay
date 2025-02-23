@@ -29,7 +29,7 @@ corsProxy.createServer({
     setHeaders: {
         'Access-Control-Allow-Origin': '*',  // Allow credentials
     }
-}).listen(3001, () => {
+}).listen(port, () => {
     console.log('CORS Anywhere Proxy server is running on port 3001');
 });
 
