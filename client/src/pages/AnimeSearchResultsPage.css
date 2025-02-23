@@ -1,0 +1,13 @@
+.search-results-div {
+    /* Take up entire viewport */
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    /* Place search results in the middle */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}

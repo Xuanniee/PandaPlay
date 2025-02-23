@@ -1,0 +1,280 @@
+/* Container for the entire video player */
+.custom-videoplayer-div {
+    /** Set to relative so that the media controls can position itself based on the div */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    /** Ensure the <video> element does not exceed the container but takes up the entirety of the container */
+    max-width: 1080px;
+    width: 100%;
+
+    /* Setting aspect ratio to prevent the video player from resizing after the metadata arrives */
+    aspect-ratio: 16 / 9;
+}
+
+/* Video within div container styling */
+.custom-videoplayer-div video.loaded {
+    /* Make the video fill the container width */
+    width: 100%;
+    /* Maintain aspect ratio */
+    height: auto;
+
+    /** Setting the default width of the video */
+    max-width: 1080px;
+
+    /* Round the edges so it looks nicer */
+    border-radius: 10px;
+    /* Adding shadows for depth */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
+    object-fit: contain; /*Maintain aspect-ratio and fill container, but might crop out parts of the video */
+}
+
+.episode-btn {
+    /* Colors */
+    background-color: #78A2D2;
+    color: #000;
+
+    font-size: small;
+
+    /* Round the button */
+    border-radius: 10px;
+    padding: 5px 15px;
+    /* Prevent button from touching video */
+    margin-bottom: 15px;
+}
+
+.episode-btn:hover {
+    /* Change the color to be darker when hovering */
+    background-color: #6791C1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/** Div Container for both the media buttons & media bar */
+.custom-videoplayer-controls {
+    /* fade-in/fade-out effect when the opacity of the media bar changes */
+    transition: opacity 0.5s;
+    
+    /** Hide the controls unless user hovers */
+    opacity: 0;
+}
+
+/* Show controls on hover */
+.custom-videoplayer-div:hover .custom-videoplayer-controls {
+    opacity: 1;
+}
+
+/* Custom Media Controls Bar at the bottom of the video */
+.custom-media-bar {
+    /* Positions the element absolutely relative to its nearest positioned ancestor, in this case the video div as its position is relative  */
+    /* Allows us to position the bar at the bottom */
+    position: absolute;
+    /* Ensure media bar starts from bottom left */
+    bottom: 0;
+    left: 0;
+
+    /* Set Dimensions of Bar */
+    width: 100%;
+    /* Set colors */
+    background: rgba(0, 0, 0, 0.5); /** 50% transparency */
+    color: white;
+
+    padding: 10px;
+    /* Sets the stack order of the element. Higher values are closer to the front. */
+    z-index: 10;
+
+    /* Ensure the seek bar is on top of the controls */
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+
+    /* Ensure controls are rounded with video or it will look weird */
+    border-radius: 10px;
+}
+
+/* Custom Media Controls in the Bar */
+.custom-media-bar-controls {
+    display: flex;
+    /* Arrange the Media Controls to be centered vertically and spread out nicely */
+    align-items: center;
+    /* First item is at start, while last is end, and everything else is spread out evenly */
+    justify-content: space-between;
+}
+
+/* Container for all the buttons on the left */
+.media-buttons-container {
+    /* Ensure all the buttons are level */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+    padding: 5px;
+}
+
+/* TODO Full Screen Styles */
+
+/* Container for both animations */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    /* Take up the entire space to centralise the loading */
+    width: 100vw;
+    height: 100vh;
+
+    gap: 20px; /* Space between footsteps and "Loading..." */
+}
+
+/* Loading Element for loading state */
+.foot-loader {
+    /* Since I want 9 footprints */
+    width: calc(9 * 30px);    
+    height: 50px;
+
+    display: flex;
+    color: #6791C1;
+
+    /* Creates a series of coloured shadows moving further along the x-axis */
+    filter: drop-shadow(30px 25px 0 currentColor) drop-shadow(60px 0 0 currentColor) drop-shadow(120px 0 0 currentColor) drop-shadow(180px 0 0 currentColor);
+
+    /* Hides part of the element with clip-path. inset() creates a rectangle clipping box */
+    /* right edge clipped at 100%, hiding the loader from view initially */
+    clip-path: inset(0 100% 0 0);
+
+    /* Applies an l12 animation that last for 2s but loops inifinitely, dividing the animation into 7 steps */
+    animation: footsteps 3s infinite steps(10);
+}
+
+/* Pseudo Element (:before) for Loader Shape */
+.foot-loader:before {
+    content: "";
+
+    /* Shape as a rectangle that fits the overall loader */
+    width: 30px;
+    height: 25px;
+
+    /* Custom CSS var --c that holds a radial gradient */
+    /* Furtherest side means gradient expand from center to furthest edge, currentColor is main color of t gradient and percentage shows how much gradient cover before being transparent */
+    --c:no-repeat radial-gradient(farthest-side,currentColor 92%,#0000);
+
+    /* Multiple background layers that are positioned differently */
+    background: 
+    /* Gradient on the left and scale to 70% of width and height */
+      var(--c) left /70% 70%,
+      var(--c) right/20% 20%,
+      var(--c) top    0 right 15%/20% 20%,
+      var(--c) bottom 0 right 15%/20% 20%;
+}
+
+/* Defines animation loaded in loader */
+@keyframes footsteps {
+    /* clip-path is updated from inset(0 100% 0 0) (initially hiding the loader) to inset(0 -30px 0 0), which reveals the loader incrementally by "unclipping" it by 30px along the x-axis. */
+    100% {clip-path: inset(0 -30px 0 0);}
+}  
+
+/* Loading Animation (from the previously provided "Loading..." animation) */
+.text-loader {
+    --w: 10ch;
+    font-weight: bold;
+    /* font-family: monospace; */
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 30px;
+    letter-spacing: calc(10 * var(--w));
+    width: var(--w);
+    overflow: hidden;
+    white-space: nowrap;
+    color: #fff;
+    animation: loading 3s infinite;
+}
+
+.text-loader:before {
+    content: "Loading...";
+}
+
+/* Loading Words animations */
+@keyframes loading {
+    0% {text-shadow: 
+        calc(  9*var(--w)) 0 #fff,calc( -1*var(--w)) 0 #fff,calc(-11*var(--w)) 0 #fff,calc(-21*var(--w)) 0 #fff,calc(-31*var(--w)) 0 #fff, 
+        calc(-41*var(--w)) 0 #fff,calc(-51*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    4% {text-shadow: 
+        calc(  0*var(--w)) 0 #fff,calc( -1*var(--w)) 0 #fff,calc(-11*var(--w)) 0 #fff,calc(-21*var(--w)) 0 #fff,calc(-31*var(--w)) 0 #fff, 
+        calc(-41*var(--w)) 0 #fff,calc(-51*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    8% {text-shadow: 
+        calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-11*var(--w)) 0 #fff,calc(-21*var(--w)) 0 #fff,calc(-31*var(--w)) 0 #fff, 
+        calc(-41*var(--w)) 0 #fff,calc(-51*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    12% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-21*var(--w)) 0 #fff,calc(-31*var(--w)) 0 #fff, 
+            calc(-41*var(--w)) 0 #fff,calc(-51*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    16% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-31*var(--w)) 0 #fff, 
+            calc(-41*var(--w)) 0 #fff,calc(-51*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    20% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-41*var(--w)) 0 #fff,calc(-51*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    24% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-51*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    28% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-61*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    32% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-71*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    36% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-81*var(--w)) 0 #fff}
+    40%,
+    60% {text-shadow: 
+            calc(  0*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    64% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-10*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    68% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-20*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    72% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-30*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    76% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-39*var(--w)) 0 #fff,calc(-40*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    80% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-39*var(--w)) 0 #fff,calc(-49*var(--w)) 0 #fff, 
+            calc(-50*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    84% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-39*var(--w)) 0 #fff,calc(-49*var(--w)) 0 #fff, 
+            calc(-59*var(--w)) 0 #fff,calc(-60*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    88% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-39*var(--w)) 0 #fff,calc(-49*var(--w)) 0 #fff, 
+            calc(-59*var(--w)) 0 #fff,calc(-69*var(--w)) 0 #fff,calc(-70*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    92% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-39*var(--w)) 0 #fff,calc(-49*var(--w)) 0 #fff, 
+            calc(-59*var(--w)) 0 #fff,calc(-69*var(--w)) 0 #fff,calc(-79*var(--w)) 0 #fff,calc(-80*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    96% {text-shadow: 
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-39*var(--w)) 0 #fff,calc(-49*var(--w)) 0 #fff, 
+            calc(-59*var(--w)) 0 #fff,calc(-69*var(--w)) 0 #fff,calc(-79*var(--w)) 0 #fff,calc(-89*var(--w)) 0 #fff,calc(-90*var(--w)) 0 #fff}
+    100% {text-shadow:
+            calc(-9*var(--w)) 0 #fff,calc(-19*var(--w)) 0 #fff,calc(-29*var(--w)) 0 #fff,calc(-39*var(--w)) 0 #fff,calc(-49*var(--w)) 0 #fff, 
+            calc(-59*var(--w)) 0 #fff,calc(-69*var(--w)) 0 #fff,calc(-79*var(--w)) 0 #fff,calc(-89*var(--w)) 0 #fff,calc(-99*var(--w)) 0 #fff}
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}

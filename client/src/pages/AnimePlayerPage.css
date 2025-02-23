@@ -1,0 +1,55 @@
+/* Container for the Entire Page */
+.main-player-page-container {
+    display: flex;
+    flex-direction: column; /* Navbar on top */
+    height: 100vh; /* Full viewport height */
+    width: 100vw;
+}
+
+/* Container for the main content of the page */
+.main-player-page-content-container {
+    display: flex;
+    flex-direction: row; /* Side by side layout */
+    flex: 1; /* Take the remaining space after the Navbar */
+
+    background-color: #000000;
+}
+
+/* Container for the Video Player */
+.video-player-container {
+    /* flex: 0 1 70%; flex-grow: 0; flex-shrink: 1; flex-basis: 70% */
+    flex: 1;
+    max-width: 70%; /* Limits the width to 70% */
+    min-width: 400px; /* Optional: you can set a min-width for responsiveness */
+    height: 100%; /* Ensures it takes the full height of the container */
+    display: flex;
+    
+    justify-content: space-around;
+    align-items: center; /* Centers the video player within its container */
+
+    background-color: #121212;
+    margin-top: 15px;
+    margin-right: 0px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+
+/* Container for the Episode List */
+.episode-list-card-container {
+    flex: 0 1 30%; /* flex-grow: 0; flex-shrink: 1; flex-basis: 30% */
+    max-width: 30%; /* Limits the width to 30% */
+    /* Allow it to scroll vertically by itself by allowing overflow and setting a maxHeight */
+    overflow-y: auto; 
+    max-height: 100vh;
+    /* Optional divider between video and episode list */
+    /* border-left: 2px solid #ccc;  */
+    height: 100%; /* Ensures the episode list takes full height of the content container */
+    width: 100%;
+    margin-top: 15px;
+    margin-left: 5px;
+
+}
+
+.spacer {
+    flex: 1;
+}

@@ -1,0 +1,62 @@
+.landing-page {
+    display: flex;
+    flex-direction: column;
+
+    /* Align anime in center */
+    align-items: center;
+    justify-content: space-around;
+}
+
+.landing-page-section {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+
+    width: 100%;
+    height: auto;
+}
+
+.landing-page-section-header {
+    font-size: medium;
+    font-weight: 600;
+
+    color: white;
+}
+
+.recent-anime-list {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    width: 100%;
+    height: auto;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.main-anime-section {
+    width: 100%;
+    height: auto;
+    overflow-x: hidden;
+
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr; /* Spacers take 1/5 each, card takes 3/5 */
+    align-items: center;
+
+    flex: 1; /* Keep flex behavior for responsiveness */
+}
+
+.spacer {
+    width: 100%;
+    height: 100%;
+}
+
+.main-anime-card {
+    width: 100%;
+    height: auto;
+}

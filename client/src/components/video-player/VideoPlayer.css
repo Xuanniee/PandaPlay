@@ -1,0 +1,24 @@
+/* Container for the entire video player */
+.video-player-container {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.video-player-buttons-container {
+    display: flex;
+    flex-direction: row;
+
+    width: 100%;
+    height: auto;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-video-container {
+
+}

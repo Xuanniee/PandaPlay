@@ -1,0 +1,267 @@
+/* Container for the Entire Card */
+.episode-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #121212;
+
+    border-radius: 10px;
+    padding: 15px 15px;
+
+    width: 100%;
+    height: 100%;
+    /* Flex-grow to ensure the container grows while user scrolls vertically */
+    flex-grow: 1;
+    overflow-y: scroll;
+}
+
+.episode-card-header h5 {
+    color: #FFFFFF;
+    /* clamp(min, preferred, max) sets a minimum, preferred, and maximum font size, ensuring text stays readable and responsive. */
+    font-size: clamp(10px, 2vw, 25px); 
+    font-weight: 400;
+    align-items: center;
+}
+
+.episode-card-row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    color: #FFFFFF;
+
+    flex-wrap: wrap; /* Allow wrapping if space is not enough */
+}
+
+.episode-card-row img {
+    border-radius: 10px;
+    margin: 5px 10px;
+}
+
+.episode-card-row h6 {
+    color: #FFFFFF;
+    margin-top: 10px;
+    padding: 2px;
+}
+
+.episode-card-row p {
+    color: #ffffffde;
+    font-size: medium;
+    margin-top: 10px;
+    padding: 2px;
+}
+
+/* Anime Profile CSS in Episode List */
+.anime-profile-summary {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Anime Poster  */
+.anime-profile-summary img {
+    max-width: 150px;  /* Set a max-width */
+    max-height: 300px; /* Set a max-height */
+
+    /* Maintain aspect ratio */
+    width: auto;
+    height: auto;
+}
+
+.metadata-container {
+    display: flex;
+    flex-direction: column;
+    
+    padding: 5px;
+}
+
+.episode-card-list {
+    list-style-type: none;
+    padding: 2%;
+    margin: 1%;
+}
+
+.episode-card-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: #282828;
+    color: white;
+
+    margin: 2%;
+    padding: 10px 1%;
+}
+
+/* Make every list item font size smaller and prevent it from overflowing */
+.episode-card-list-item li {
+    width: 25ch; /* Limits to roughly 20 characters */
+    height: auto;
+    padding: 2px 5px;
+    font-size: smaller;
+
+
+    overflow: hidden;
+    white-space: nowrap; /* Prevent Newlines */
+    text-overflow: ellipsis; /* Adds "..." when text overflows */
+}
+
+.episode-card-list-item:hover {
+    background-color: #3f3f3f;
+    color: white;
+}
+
+.episode-card-description {
+    border: 2px solid #282828;
+    border-radius: 10px;
+
+    background-color: #282828;
+    padding: 1% 2%;
+    margin-top: 10px;
+
+    font-size: smaller;
+}
+                
+/** For Smaller Media Control at the Media Bar */
+.responsive-mediabar-container {
+    /* vw & vh are viewport width and heights, which are relative to the viewport width and height, making the icons scale with the screen size. */
+    width: 1vw;
+    height: 1vw;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 35px;
+    max-height: 35px;
+}
+.responsive-mediabar-button {
+    font-size: 1vw;
+    color: white;
+    margin-right: 15px;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 5px;
+    min-height: 5px;
+    max-width: 25px;
+    max-height: 25px;
+}
+
+/* To create a Divider Line */
+.divider-line {
+    width: 100%;
+    /* Line Thickness */
+    height: 0.5px;
+    /* color */
+    background-color: #444;
+}
+
+/* CSS for Genres */
+.genre-grid {
+    display: grid;
+    /* autofill to tell CSS to fill in as many column as possible within available space */
+    /* min is 50px, max is 1 fractional space */
+    grid-template-columns: repeat(4, minmax(80px, 1fr));
+    /* Add a gap */
+    gap: 10px;
+    width: 100%;
+
+    margin: 5% 2%;
+    overflow-x: hidden;
+    flex-wrap: wrap;
+}
+
+.genre-button {
+    font-size: small;
+    color: #FFFFFF;
+}
+
+/* CSS For Cast Card Section */
+.cast-card-table {
+    width: 100%;
+}
+
+.cast-card-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    /* Border */
+    border: 2px solid black;
+    border-radius: 10px;
+    
+
+    /* Dimensions */
+    width: 100%;
+    height: auto;
+    padding: 0px;
+    margin: 10px 2px;
+}
+
+.cast-card-div img {
+    margin: 0px;
+
+    width: 15%;
+    height: auto;
+}
+
+.cast-name-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    font-family: Helvetica, Arial, sans-serif;
+
+    justify-content: start;
+    align-items: flex-start;
+}
+
+.cast-name-section .character-name {
+    margin: 5% 3%;
+    font-size: medium;
+    font-weight: 500;
+}
+
+.cast-name-section .voiceactor-name {
+    margin: 5% 3%;
+    font-size: small;
+    font-weight: 300;
+}
+
+.spacer {
+    flex: 1;
+}
+
+/* Episode List Page Select Tag CSS */
+.episode-card-list-pagination {
+    /* Ensure Middle Section dont take up too much space */
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+
+    width: 100%;
+    height: auto;
+
+    justify-content:space-around;
+    align-items: center;
+}
+
+.episode-card-list-pagination-spacer {
+    flex: 3;
+}
+
+.custom-episode-selector {
+    border-radius: 10px;
+    padding: 8px;
+
+    cursor: pointer;
+}
+
+.custom-episode-selector option {
+    /* Set a max Height when expanded */
+    max-height: 250px; /* Adjust based on your UI */
+    overflow-y: auto;
+}
+
+.selector-icon-button {
+    /* Make the icons white instead of original black */
+    filter: invert(1);
+}

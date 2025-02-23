@@ -1,0 +1,126 @@
+/* CSS for the entire Navbar element */
+.custom-navbar {
+    /* Ensure that the navbar shows items from left to right */
+    display: flex;
+    flex-direction: row;
+
+    /* Take up the entire viewport */
+    width: 100%;
+    height: auto;
+
+    /* Align items in a navbar */
+    justify-content: space-around;
+    align-items: center;
+
+    /* Background make it a gradient so it looks modern from full black to translucent black on right */
+    background: rgba(30, 31, 34, 0.9); /* ChatGPT dark mode gray with 90% opacity */
+    backdrop-filter: blur(5px); /* Optional: Adds a slight blur effect */
+    color: white; /* Ensures text is visible */
+    padding: 10px 20px;
+
+    border-radius: 10px;
+}
+
+/* Icons on the left of navbar */
+.left-navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    /* Takes up 1 unit of flex */
+    flex: 1;
+
+    width: 100%;
+    height: auto;
+}
+
+.left-navbar ul {
+    /* Remove custom ul styling */
+    list-style-type: none;
+
+    /* Make icons go from left to right */
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    margin-bottom: 0px;
+
+    /* Horizontally, i want the icons to lean left */
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navbar-item {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.navbar-item-icon {
+    /* Invert the colors */
+    filter: invert(1);
+}
+
+.left-navbar a {
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.navbar-item, .navbar-item-icon a:hover {
+    color: rgb(200, 200, 200);
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.navbar-spacer {
+    flex: 2;
+}
+
+.right-navbar {
+    display: flex; /* Ensure elements are horizontally aligned */
+    align-items: center; /* Vertically center elements */
+    justify-content: flex-end; /* Align to the right */
+    gap: 10px; /* Space between elements */
+}
+
+.navbar-search {
+    background: rgba(255, 255, 255, 0.1); /* Slightly translucent white */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 8px 12px;
+    color: white; /* Text color */
+    width: 250px; /* Adjust width as needed */
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-search {
+    display: flex;
+    align-items: center;
+    background: rgba(100, 100, 100, 0.9); /* Translucent background */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 5px 10px;
+
+    width: clamp(180px, 10vw, 300px); /* Adjust width as needed */
+}
+
+.navbar-search-input {
+    background: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 3px;
+    outline: none;
+    font-size: 13px;
+}
+
+/* Placeholder styling */
+.navbar-search-input::placeholder {
+    color: white;
+}
+
+

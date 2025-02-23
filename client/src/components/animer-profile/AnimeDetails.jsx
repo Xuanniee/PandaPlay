@@ -1,41 +1,39 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-export default function AnimeDetails({ animeDetails }) {
-    const thumbnailDesc = `${ animeDetails.title } thumbnail`;
+import "./AnimeProfile.css";
+
+export default function AnimeInfo({ animeInfo }) {
+
+    const thumbnailDesc = `${ animeInfo.info.name } thumbnail`;
 
     return (
-        <div className="row my-4">
-        {/** Anime Picture */}
-        <div className="col-12 col-md-4 mb-4 mb-md-0">
-            <img 
-                src={animeDetails.image} 
-                className="rounded img-fluid" 
-                alt={thumbnailDesc}
-                style={{ maxWidth: "100%", height: "auto", border: "5px solid #31363F" }}
-            />
-        </div>
-
-        {/** Anime Description */}
-        <div className="col-12 col-md-8">
-            <div className="row mb-4">
-                <div className="col-auto">
-                    <h2 className="mb-0">{animeDetails.title}</h2>
-                </div>
-                <div className="col-auto">
-                    <button disabled={true} className="ml-2 subOrDubButton">{animeDetails.subOrDub}</button>
-                </div>
+        <div className="anime-profile">
+            {/** Anime Picture */}
+            <div className="anime-profile-left-div">
+                <img 
+                    src={ animeInfo.info.poster }
+                    className="anime-profile-image" 
+                    alt={thumbnailDesc}
+                />
             </div>
-            <div className="row">
-                <div className="col">
-                    <h5>Released on: {animeDetails.releaseDate}</h5>
-                    <h5>Status: {animeDetails.status}</h5>
+
+            {/** Anime Description */}
+            <div className="anime-profile-right-div">
+                <div className="anime-profile-right-title-div">
+                    <span className="anime-profile-right-details-title">{ animeInfo.info.name }</span>
+                    {/* Add a Sub/Dub indicator here */}
+                </div>
+
+                <div className="anime-profile-right-metadata-div">
+                    <span><span className="anime-profile-headers">Released on:</span> { animeInfo.moreInfo.aired }</span>
+                    <span><span className="anime-profile-headers">Status:</span> { animeInfo.moreInfo.status }</span>
 
                     {/** Genres as buttons */}
-                    <h5>Genres:</h5>
-                    <div className="d-flex flex-wrap">
-                        {animeDetails.genres && animeDetails.genres.length > 0 ? (
-                            animeDetails.genres.map((genre, index) => (
+                    <span className="anime-profile-headers">Genres:</span>
+                    <div className="anime-profile-right-genres-div">
+                        {animeInfo.moreInfo.genres && animeInfo.moreInfo.genres.length > 0 ? (
+                            animeInfo.moreInfo.genres.map((genre, index) => (
                                 <Button
                                     key={index}
                                     variant="secondary"
@@ -50,13 +48,11 @@ export default function AnimeDetails({ animeDetails }) {
                         )}
                     </div>
 
-                    <p className="lead mt-3">
-                        {animeDetails.description}
-                    </p>
+                    <span className="anime-profile-description">
+                        { animeInfo.info.description }
+                    </span>
                 </div>
             </div>
         </div>
-    </div>
     );
 }
-

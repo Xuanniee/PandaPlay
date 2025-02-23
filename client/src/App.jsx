@@ -1,11 +1,11 @@
 import './App.css'
-import LandingPage from './pages/LandingPage'
+import AnimeLandingPage from './pages/AnimeLandingPage'
 
 function App() {
 
   return (
     <>
-      <LandingPage/>
+      <AnimeLandingPage />
     </>
   )
 }

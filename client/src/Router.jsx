@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter } from "react-router-dom";
 
-import LandingPage from "./pages/LandingPage";
+import AnimeLandingPage from "./pages/AnimeLandingPage";
 import AnimeProfilePage from "./pages/AnimeProfilePage";
 import AnimePlayerPage from "./pages/AnimePlayerPage";
 import AnimeSearchResultsPage from "./pages/AnimeSearchResultsPage";
@@ -11,7 +11,7 @@ import AnimeSearchResultsPage from "./pages/AnimeSearchResultsPage";
 const clientRouter = createBrowserRouter([
     {
         path: "/",
-        element: <LandingPage />,
+        element: <AnimeLandingPage />,
     },
     {
         // Pass the animeId through the URL
@@ -19,7 +19,7 @@ const clientRouter = createBrowserRouter([
         element: <AnimeProfilePage />,
     },
     {
-        path: "/:animeId/:episodeId/:lastEpisode",
+        path: "/:animeId/:episodeNumber/:lastEpisode",
         element: <AnimePlayerPage />
     },
     {

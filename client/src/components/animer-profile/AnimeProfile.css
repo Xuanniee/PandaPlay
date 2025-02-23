@@ -1,0 +1,144 @@
+.anime-profile {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    color: white;
+
+}
+
+.anime-profile-left-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.anime-profile-image {
+    border-radius: 10px;
+    margin: 2vh 1vw;
+}
+
+.anime-profile-right-div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.anime-profile-right-title-div {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-around;
+    align-items: center;
+}
+
+.anime-profile-right-details-title {
+    font-family: Impact, sans-serif;
+    font-size: 2rem;
+}
+
+.anime-profile-right-metadata-div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+    font-family: Helvetica, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+}
+
+.anime-profile-headers {
+    font-family: Impact, sans-serif;
+    font-size: 1rem;
+}
+
+.anime-profile-right-genres-div {
+    flex-wrap: wrap;
+}
+
+.anime-profile-description {
+    font-size: 1rem;
+
+}
+
+.episode-table {
+    font-family: Helvetica, sans-serif;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #343A40;
+
+    margin: 2vh 0px;
+    min-width: 60vw;
+
+    /* Ensure no space between cell borders */
+    border-collapse: collapse;
+    border-radius: 10px;
+    /* Add a shadow */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling for Table Headers */
+.episode-table thread tr {
+    background-color: #343A40;
+    text-align: left;
+}
+
+/* Cells within Table */
+.episode-table th, .episode-table td {
+    /* Add spacing */
+    padding: 1vh 1vw;
+}
+
+/* Table Rows */
+.episode-table tbody tr {
+    /* Darker background-color than headers for rows */
+    background-color: #212529;
+}
+
+/* Shade a different color for every even row for readability */
+.episode-table tbody tr:nth-of-type(even) {
+    background-color: #2C3038;
+}
+
+/* Round the bottom-left corner of last row, i.e. first child */
+tr:last-child td:first-child {
+    border-bottom-left-radius: 10px; 
+}
+
+/* Round the bottom-right corner of last row */
+tr:last-child td:last-child {
+    border-bottom-right-radius: 10px; 
+}
+
+.episode-table-pagination-controls {
+    display: flex;
+    flex-direction: row;
+
+    border-radius: 10px;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 30vw;
+    height: auto;
+    margin: 0vh 1vw 2vh 1vw;
+
+    color: #fff;
+    background-color: #212529;
+}
+
+.episode-table-icon {
+    /* Set pagingation icons to white */
+    color: #fff;
+}
+
+.episode-table-page-counter {
+    font-family: Helvetica, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+}

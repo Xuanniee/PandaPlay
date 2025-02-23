@@ -1,5 +1,4 @@
 import express from 'express';
-import { Sequelize } from 'sequelize';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import * as corsProxy from 'cors-anywhere';
@@ -27,6 +26,9 @@ corsProxy.createServer({
     originWhitelist: [], // Allow all origins
     requireHeaders: ['origin', 'x-requested-with'], // Necessary Headers
     removeHeaders: ['cookie', 'accept-encoding'], // Remove unnecessary headers
+    setHeaders: {
+        'Access-Control-Allow-Origin': '*',  // Allow credentials
+    }
 }).listen(3001, () => {
     console.log('CORS Anywhere Proxy server is running on port 3001');
 });

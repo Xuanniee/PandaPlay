@@ -1,0 +1,324 @@
+.main-anime-card {
+    /* Use the provided var for the URL for background image */
+    background-image: var(--animePosterUrl);
+    /* Ensure background image covers the entire div by cropping the image if necessary */
+    background-size: cover;
+    /* Ensure background image is centered */
+    background-position: center;
+    
+    
+    /* Ensure the card is positioned relative to its normal position, so we can position other components inside it */
+    /* For stacking in z axis */
+    position: relative;
+    /* Round the corners of the image */
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 10px;
+
+    /* Take up the entire viewport */
+    width: 100%;
+    height: 100%; /* Make sure it takes the full height of its container */
+    min-height: 35vh; /* Ensure it has some minimum height */
+
+    display: flex;
+    /* Ensure content is arrange horizontally since I want image to be on right */
+    flex-direction: row;
+    justify-content: flex-start; /* Align the content at the top */ 
+
+    /* Center the card horizontally with some margin */
+    margin: 2vh auto; 
+    padding: 0; /* Remove extra padding, or adjust as needed */
+    /* Move this to the last layer */
+    z-index: 0;
+    /* Ensure content doesn't overflow outside the card */
+    overflow: hidden;
+}
+
+.main-anime-card-overlay {
+    /* Applies a blur effect to the area behind the .card-body (not the content of .card-body itself) */
+    backdrop-filter: blur(3px);
+    /* Darken the background */
+    background: rgba(0, 0, 0, 0.4); 
+    border-radius: 10px;
+    margin: 0px;
+
+    /* Take up the entire parent div space to overlay the blur properly */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    /* Background Blur on top of main div */
+    z-index: 1;
+}
+
+.main-anime-card-body {
+    /* Make the body section take up the full height and width */
+    width: 100%;
+    height: 100%; /* Ensure it takes the full height of the card */
+    border-radius: 10px;
+    
+    display: flex;
+    flex-direction: row; /* Align text and elements vertically */
+    /* Take up remaining space */
+    flex: 1;
+
+    justify-content: center; /* Center the content vertically */
+    align-items: start;
+    padding: 20px; /* Padding for the text */
+
+    /* Position this on top of the blur */
+    position: absolute;
+    z-index: 2;
+
+    color: white;
+    font-weight: 500;
+}
+
+.main-anime-card-body-leftdiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    /* Take up the entire veritcal space */
+    height: 100%;
+    width: auto;
+    max-width: 45%;
+
+    justify-content: space-around;
+    align-items: start;
+    flex: 1;
+}
+
+/* Title should be bold */
+.main-anime-card-title {
+    font-family: 'Impact', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    flex: 2;
+
+    overflow-wrap: normal;
+}
+
+.main-anime-card-latest {
+    font-family: 'Impact', sans-serif;
+    font-size: 1rem; /* Slightly smaller than the title */
+    font-weight: bold;
+    flex: 1;
+}
+
+.main-anime-card-description {
+    font-family: sans-serif;
+    font-size: 0.8rem; /* Regular size for readability */
+    font-weight: normal;
+    color: white; /* Soft color for body text */
+    flex: 1;
+}
+
+.main-anime-card-body-rightdiv {
+    flex: 1;
+}
+
+.main-anime-card-image {
+    /* Use the same image but unblurred */
+    background-image: var(--animePosterUrl);
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+
+    /* Place this div on top of the text as well */
+    position: absolute;
+    z-index: 3;
+
+    /* Rotate, scale down image, and move horizontally to the right in one transform property */
+    transform-origin: center center; 
+    transform: scale(0.5) translateX(45%); /* Combined transformation */
+
+    width: 100%; /* Make the image smaller by adjusting width */
+    height: 100%; /* Keep height to fill container vertically */
+
+    /* Make sure it stays within the parent bounds */
+    top: 0;
+    left: 0; /* Shift image to the right */
+}
+
+.watch-button, .watch-button-icon {
+    color: white;
+    font-size: small;
+
+    width: 10vw;
+    height: auto;
+
+    /* Scale the icon and font down */
+    transform: scale(0.7) translateX(-25%);
+}
+
+/* Align the button to be centralised */
+.watch-button {
+    background: rgb(100, 100, 100);
+    border-radius: 20px;
+    margin-right: auto; /* Push the button to the left */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* To flush the button to the left */
+.watch-button-div {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    padding: 0px;
+    justify-content: flex-start; /* Align children to the left */
+    align-items: flex-end; /* Ensure the button is aligned at the bottom (optional, depending on design) */
+    width: 8vw;
+    height: auto;
+
+    margin: 1% 2%;
+
+    /* Place it relative to the anime-card */
+    position: absolute;
+    top: 80%;
+    left: 0%;
+    z-index: 1;
+}
+
+.watch-button-div.recent-anime {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    padding: 0px;
+    justify-content: flex-start; /* Align children to the left */
+    align-items: flex-end; /* Ensure the button is aligned at the bottom (optional, depending on design) */
+    width: 8vw;
+    height: auto;
+
+    margin: 1% 8%;
+
+    /* Place it relative to the anime-card */
+    position: absolute;
+    top: 80%;
+    left: 0%;
+    z-index: 1;
+}
+
+/* CSS for the Other Animes */
+.anime-card {
+    /* Use the provided var for the URL for background image */
+    background-image: var(--animePosterUrl);
+    /* Ensure background image can be seen tho shrunk */
+    background-size: cover;
+    /* Prevent background img from repeating */
+    background-repeat: no-repeat;
+    /* Ensure background image is centered */
+    background-position: center center; /* Center the image */
+    position: relative;
+    /* Position this behind the card that appears */
+    z-index: 0;
+
+    /* Round the corners of the image */
+    width: 20vw; /* Fixed width for vertical rectangle */
+    height: 25vh; /* Fixed height for vertical rectangle */
+    border-radius: 10px;
+}
+
+.anime-card.portrait {
+    width: 10vw;
+    height: 30vh;
+    gap: 10px;
+}
+
+.anime-card-div {
+    position: relative;
+}
+
+/* Postiion this on top of the .anime-card-div */
+.anime-card-details-div {
+    display: flex;
+    flex-direction: column;
+
+    /* ChatGPT dark mode gray with 90% opacity */
+    background: rgba(30, 31, 34, 0.9);
+    border: 1px solid (30, 31, 34, 0.9);
+    border-radius: 10px;
+
+    width: calc(20vw + 3px);
+    height: 25vh;
+
+    /* Dont let it overflow vertically */
+    overflow-y: hidden;
+
+    /* Place this class on top the anime-card class */
+    position: absolute;
+    z-index: 1;
+    /* Position it to directly on top of the current card */
+    top: 0;
+    left: 0;
+    /* Shift it to the right */
+    transform: translateX(calc(20vw + 9px));
+}
+
+.anime-card-details-div.portrait {
+    /* Make the dimensions fit portrait so that when we shift to right 100% it is still correct */
+    width: 10vw;
+    height: 30vh;
+    /* Shift to the right more because of width diffs */
+    transform: translateX(calc(100% + 10px));
+}
+
+/* Landscape images take full width */
+.anime-card-details-div-image {
+    width: 100%; /* Make the image take full width */
+    height: 50%; /* Adjust height (e.g., 40% of card height) */
+    object-fit: cover; /* Crop non-center parts while maintaining aspect ratio */
+    object-position: center; /* Ensures the center of the image remains visible */
+    border-radius: 10px 10px 0 0; /* Round only top corners */
+}
+
+.anime-card-details-div-image.portrait {
+    width: 100%;
+    height: 50%; 
+    object-fit: cover;  /* Ensure the image covers the entire area */
+    object-position: top;  /* Center the image so it crops from the sides evenly */
+}
+
+.anime-card-details-div-details {
+    display: flex;
+    flex-direction: column;
+
+    /* Align the words to the top left */
+    justify-content: space-around;
+    align-items: flex-start;
+    /* Add padding to body and not whole card to not affect image */
+    padding: 2px 5px;
+    flex: 1;
+}
+
+.anime-card-details-div-title {
+    color: white;
+
+    font-size: medium;
+    font-weight: 500;
+    font-family: Impact, sans-serif;
+    
+    margin: 1% 2%;
+}
+
+.anime-card-details-div-body {
+    color: white;
+    overflow-y: hidden;
+
+    font-size: 0.75rem;  /* Make text smaller */
+    line-height: 1rem;   /* Reduce line height */
+    margin: 1% 2%;
+}
+
+.spacer {
+    flex: 1;
+}

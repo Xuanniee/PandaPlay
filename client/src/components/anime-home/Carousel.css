@@ -1,0 +1,137 @@
+/* Entire Container for the Entire Section of Anime */
+.anime-home-section {
+    /* Place the Section Top and Bottom vertically */
+    display: flex;
+    flex-direction: column;
+
+    /* Arrange them in the center */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    gap: 10px;
+
+}
+
+/* Holds the Section Title and Controls */
+.anime-home-section-top {
+    display: flex;
+    flex-direction: row;
+
+    /* Take up entire width */
+    width: 100%;
+    height: auto;
+    max-height: 10vh;
+    padding: 3px 1vw;
+
+    /* Place the content at the ends */
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Title CSS for the entire carousell */
+.anime-home-section-header {
+    font-family: Impact, sans-serif;
+    font-size: medium;
+    font-weight: 500;
+
+    color: white;
+    flex: 2;
+}
+
+/* Container for Carousel Controls */
+.anime-home-carousel-controls {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+
+    width: 100%;
+    height: auto;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Spacer to separate the title and carousel controls */
+.carousel-spacer {
+    flex: 5;
+}
+
+/* Container for the Carousel itself */
+.anime-home-carousel {
+    display: flex;
+    align-items: center;
+    
+    width: 100vw;
+    height: 35vh;
+    margin: 2px 5px;
+    /* Hide overflow scrollbar */
+    overflow: scroll;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    position: relative;
+    -ms-overflow-style: none;  /* Hide scrollbar for IE/Edge */
+    scrollbar-width: none;  /* Hide scrollbar for Firefox */
+}
+
+/* Optional: Hide scrollbar for different browsers */
+.anime-home-carousel::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+}
+
+/* Animation for the track moving */
+.anime-home-carousel-track {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    /* To allow spacing between all the recent anime titles */
+    gap: 10px;
+    /* Padding so that there is a gap and wont be touching the web pages end */
+    padding: 1vh 1vw;
+
+    /* To ensure the entire anime can be seen */
+    height: 100%;
+    width: auto;
+}
+
+/* CSS for each anime title in the carousel */
+.anime-home-carousel-item {
+    /* Takes up 20% since I want to hold 5 anime title in the carousel which uses 100% of the container */
+    width: 25vw;
+    height: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 2px 5px;
+}
+
+/** For responsive button controls */
+.responsive-carousel-button {
+    /* vw & vh are viewport width and heights, which are relative to the viewport width and height, making the icons scale with the screen size. */
+    width: 10vw;
+    height: 10vw;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 80px;
+    max-height: 80px;
+
+    /* Ensure controls are rounded with video or it will look weird */
+    border-radius: 10px;
+}
+
+.responsive-carousel-icon {
+    font-size: 8vw;
+    color: white;
+
+    /* Setting maximum & minimum sizes for the icons to prevent them from being big */
+    min-width: 20px;
+    min-height: 20px;
+    max-width: 30px;
+    max-height: 30px;
+
+    /* Circular border around them */
+    border: 1px solid white;
+    border-radius: 50%;
+}

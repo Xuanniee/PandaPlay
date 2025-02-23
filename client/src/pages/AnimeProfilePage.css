@@ -1,0 +1,23 @@
+.anime-profile-div {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: auto;
+
+    align-items: center;
+}
+
+.anime-profile-details-div {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    height: auto;
+
+    align-items: center;
+    justify-content: space-around;
+}
+
+.spacer {
+    width: 20vw;
+    height: auto;
+}

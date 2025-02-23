@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+import "./Navbar.css";
 
 export default function SearchBar({ onSearchHandler }) {
     const [searchQuery, setSearchQuery] = useState("");
@@ -21,11 +22,11 @@ export default function SearchBar({ onSearchHandler }) {
 
     return(
         <>
-            <form className="d-flex me-2 search-bar-debug" onSubmit={handleSearchSubmit}>
+            <form className="navbar-search" onSubmit={handleSearchSubmit}>
                 <input 
-                    className="form-control me-2" 
+                    className="navbar-search-input" 
                     type="search"
-                    placeholder="Search" 
+                    placeholder="Search..." 
                     aria-label="Search"
                     onChange={handleInputChange}
                     value={searchQuery}
