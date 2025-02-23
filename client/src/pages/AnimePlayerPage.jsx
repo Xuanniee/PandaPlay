@@ -20,7 +20,6 @@ export default function AnimePlayerPage() {
     const [animeInfo, setAnimeInfo] = useState(null);
 
     const getAnimeInfo = async (animeId) => {
-        console.log(`Get anime Info was called once`);
         // API Call to get Anime Title
         // const res = await fetch("http://localhost:3000/api/anime/fetch-info", {
         const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-info", {
@@ -75,14 +74,14 @@ export default function AnimePlayerPage() {
                 // Set the subtitles as well
                 setAnimeSubtitles(streamData.tracks);
 
-                console.log(`Episode Soruces: ${episodeSources[0].url}`);
-                console.log(`Subtitles: ${animeSubtitles}`);
+                // console.log(`Episode Soruces: ${episodeSources[0].url}`);
+                // console.log(`Subtitles: ${animeSubtitles}`);
 
                 // Set the first quality otherwise
                 if (episodeSources) {
                     setEpisodeUrl(episodeSources[0].url);
                     // setEpisodeUrl("https://fds.biananset.net/_v7/bcc52d54faa312a4db378d17489cb8a004d0e466d2734810803aa4ceb961f23f284642f711fba4bbca93d3ce1f4a812a7d7f9cd4c48150fef35b7c3f31be6b6fded8afc1bab364cdd53e67ee2a279e91515dd28bd0f91d4ffd14b5e2dfd5b6283d011385480e67b720707cf4dc4daa744f35ffd57103b2cb10437298d113311f/master.m3u8");
-                    console.log(`episodeUrl: ${episodeUrl}`);
+                    // console.log(`episodeUrl: ${episodeUrl}`);
                 }
 
                 // if (defaultQualityIndex !== -1) {
@@ -120,8 +119,8 @@ export default function AnimePlayerPage() {
                 const episodeListData = await res.json();
                 setEpisodeListData(episodeListData);
 
-                console.log(`Set List: ${episodeListData.episodes[0].title}`);
-                console.log(`EpisodeListData99: ${episodeListData.episodes}`);
+                // console.log(`Set List: ${episodeListData.episodes[0].title}`);
+                // console.log(`EpisodeListData99: ${episodeListData.episodes}`);
             }
             catch (error) {
                 console.error(`Error in making API Call to /fetch-anime-episodes: ${error}`);

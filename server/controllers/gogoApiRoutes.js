@@ -22,7 +22,7 @@ animeRouter.post('/fetch-info', async (req, res) => {
         };
                 
         // Send merged JSON response back to the client
-        console.log(`AnimeRoutesData:`, animeDetails);
+        // console.log(`AnimeRoutesData:`, animeDetails);
         res.json(animeDetails);
     }
     catch (error) {
@@ -36,9 +36,9 @@ animeRouter.post('/fetch-stream-link', async (req, res) => {
         // Extract the Anime ID from the req
         const { animeId, episodeNumber } = req.body;
         // Note that the episodeNumber required by the API =/= episodeNumber selected
-        console.log(`animeId: ${animeId} episodeNum: ${episodeNumber}`);
+        // console.log(`animeId: ${animeId} episodeNum: ${episodeNumber}`);
         const episodeData = await fetchAnimeEpisodeId(animeId, episodeNumber);
-        console.log(`Epsiode Data: ${episodeData}`);
+        // console.log(`Epsiode Data: ${episodeData}`);
         if (episodeData === null) {
             // Episode does not exist
             console.log(`Episode does not exist.`);
@@ -47,7 +47,7 @@ animeRouter.post('/fetch-stream-link', async (req, res) => {
         
         // Found valid episodeId
         const animeEpisodeId = episodeData.episodeId;
-        console.log(`animeEpisodeId: ${animeEpisodeId}`);
+        // console.log(`animeEpisodeId: ${animeEpisodeId}`);
         const animeStreamLink = await fetchAnimeStreamLinks(animeEpisodeId);
 
         res.json(animeStreamLink.data.data);
@@ -80,7 +80,7 @@ animeRouter.post('/fetch-anime-episodes', async (req, res) => {
         // Retrieve the correct episodeID based on provided data
         const episodeListData = await fetchAnimeEpisodes(animeId);
 
-        console.log(`Epsiode list data: ${episodeListData.data.data.episodes}`)
+        // console.log(`Epsiode list data: ${episodeListData.data.data.episodes}`)
 
         // Return the entire list of episodes
         res.json(episodeListData.data.data);

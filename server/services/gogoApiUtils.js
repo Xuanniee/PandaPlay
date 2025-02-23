@@ -77,7 +77,7 @@ async function fetchAnimeStreamLinks(animeEpisodeId) {
         // const animeStreamUrl = `${baseUrl}/anime/gogoanime/watch/${episodeId}`;
         // Append &server=hd-1&category=sub if u want to specify the server or category
         const animeStreamUrl = `${baseUrl}/api/v2/hianime/episode/sources?animeEpisodeId=${animeEpisodeId}`;
-        console.log(`animeStreamUrl: ${animeStreamUrl}`);
+        // console.log(`animeStreamUrl: ${animeStreamUrl}`);
         const res = await axios.get(animeStreamUrl);
 
         return res;
@@ -100,13 +100,13 @@ async function fetchAnimeEpisodeId(animeId, targetEpisodeNumber) {
         // Make the API Call to get the list of episodes
         const baseUrl = process.env.ANIWATCH_BASE_URL;
         const animeEpisodeListUrl = `${baseUrl}/api/v2/hianime/anime/${animeId.toString()}/episodes`;
-        console.log('Making Episode List API Call');
+        // console.log('Making Episode List API Call');
         const res = await axios.get(animeEpisodeListUrl);
 
         // Assume that the Episode List is 1 indexed, Retrieve the Correct Episode ID
         const episodeList = res.data.data.episodes;
         const episodeData = episodeList[targetEpisodeNumber-1];
-        console.log(`Teest: ${episodeData.number}`);
+        // console.log(`Teest: ${episodeData.number}`);
 
         // Check if it is correct
         if (parseInt(episodeData.number, 10) === parseInt(targetEpisodeNumber, 10)) {
@@ -159,7 +159,7 @@ async function fetchAnimeCategories(animeCategory) {
         const baseUrl = process.env.ANIWATCH_BASE_URL;
         // const recentUrl = `${baseUrl}/api/v2/hianime/category/{name}?page={page}`;
         const categoryUrl = `${baseUrl}/api/v2/hianime/category/${animeCategory}?page=1`;
-        console.log(categoryUrl);
+        // console.log(categoryUrl);
 
         const res = await axios.get(categoryUrl);
 
@@ -179,7 +179,7 @@ async function fetchAnimeHome() {
         // const BASE_URL = process.env.CONSUMET_BASE_URL;
         const baseUrl = process.env.ANIWATCH_BASE_URL;
         const homeUrl = `${baseUrl}/api/v2/hianime/home`;
-        console.log(homeUrl);
+        // console.log(homeUrl);
 
         const res = await axios.get(homeUrl);
 

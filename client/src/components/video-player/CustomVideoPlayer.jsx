@@ -62,7 +62,7 @@ export default function CustomVideoPlayer({ episodeNumber, episodeUrl, controls,
         try {
             // Build the proxyUrl using the provided Url - ProxyURL/episodeURL
             // const proxyUrl = `http://localhost:3001/${episodeUrl}`;
-            const proxyUrl = `https://pandaplay-backend.onrender.com:3001/${episodeUrl}`;
+            const proxyUrl = `https://pandaplay-backend.onrender.com?target=${episodeUrl}`;
 
             // Library to play HLS streams in browsers that do not natively support it
             // Instance of HLS to load video and handle playback
@@ -78,7 +78,7 @@ export default function CustomVideoPlayer({ episodeNumber, episodeUrl, controls,
                 
                 // Event 1 - HLS manifest file is parsed and Video can be played
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    console.log("Reaches Eevent 1 - Manifest Parsed");
+                    // console.log("Reaches Eevent 1 - Manifest Parsed");
                     const videoElement = videoRef.current;
 
                     // Video is ready to play after we determined the duration and remove the error
@@ -94,10 +94,10 @@ export default function CustomVideoPlayer({ episodeNumber, episodeUrl, controls,
                     // Set the Video Quality to the highest
                     let qualityLevels = hls.levels;
                     hls.currentLevel = qualityLevels.length - 1;
-                    console.log(`Number of Quality Levels: ${qualityLevels.length}`);
-                    hls.levels.forEach((level, index) => {
-                        console.log(`Level ${index}: ${level.width}x${level.height} @ ${level.bitrate}bps`);
-                    });
+                    // console.log(`Number of Quality Levels: ${qualityLevels.length}`);
+                    // hls.levels.forEach((level, index) => {
+                    //     console.log(`Level ${index}: ${level.width}x${level.height} @ ${level.bitrate}bps`);
+                    // });
 
                     // Remember to always set the HLS Instance to track it
                     setHlsInstance(hls);

@@ -13,7 +13,7 @@ import { IconButton } from "@mui/material";
         const navigate = useNavigate();
 
         const handleSearchSubmit = (query) => {
-            console.log('Search query:', query);
+            // console.log('Search query:', query);
             navigate(`/search/${query}`);
 
         };  

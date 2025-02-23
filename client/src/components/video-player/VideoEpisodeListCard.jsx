@@ -35,7 +35,7 @@ export default function VideoEpisodeListCard ({ episodeListData, animeInfo, tota
     const handleSwitchingEpisode = (selectedEpisode) => {
         // Just update the episode we are watching and it will trigger the useEffect hook in the parent to get new link
         // Can be changed by navigating
-        console.log(`Navigating to /${animeId}/${selectedEpisode}/${lastEpisode}`);
+        // console.log(`Navigating to /${animeId}/${selectedEpisode}/${lastEpisode}`);
         navigate(`/${animeId}/${selectedEpisode}/${lastEpisode}`);
     }
 

@@ -36,7 +36,7 @@ export default function AnimeProfilePage() {
 
                 // Set the data
                 const animeData = await res.json();
-                console.log(animeData);
+                // console.log(animeData);
                 setAnimeDetails(animeData);
                 setLoading(false);
             }

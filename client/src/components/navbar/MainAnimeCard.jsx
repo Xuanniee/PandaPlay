@@ -8,7 +8,7 @@ import "./AnimeCard.css";
 export default function MainAnimeCard({ animeDetail }) {
     const navigate = useNavigate();
     const MAX_LENGTH = 200;
-    console.log(`Image URL: ${animeDetail.poster}`);
+    // console.log(`Image URL: ${animeDetail.poster}`);
 
     const handleRedirect = () => {
         // navigate(`/${animeDetail.id}/${animeResult.episodes.sub}/${animeResult.episodes.sub}`);
@@ -35,6 +35,8 @@ export default function MainAnimeCard({ animeDetail }) {
 
                         {/* Anime Description - Limit the word count */}
                         <span className="main-anime-card-description">{ `${animeDetail.description.substring(0, MAX_LENGTH)}...` }</span>
+
+                        <div className="spacer"></div>
 
                         <div className="watch-button-div">
                             <button onClick={handleRedirect} className="watch-button">

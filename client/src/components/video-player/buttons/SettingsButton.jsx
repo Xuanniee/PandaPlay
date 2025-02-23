@@ -53,7 +53,7 @@ export default function SettingsButton({
      * @param {Track Object} track 
      */
     const handleSubtitlesChange = (track) => {
-        console.log(`Setting Subtitles: ${track.kind} ${track.file}`);
+        // console.log(`Setting Subtitles: ${track.kind} ${track.file}`);
         // Switch the subtitles on if it is not already turned on
         if (!subtitlesOn) {
             setSubtitlesOn(true);
@@ -64,7 +64,7 @@ export default function SettingsButton({
         // Close the menu after changing
         toggleSettingsMenu();
 
-        console.log(`SubtitlesOn: ${subtitlesOn} selectedSubtitles: ${selectedSubtitles}`);
+        // console.log(`SubtitlesOn: ${subtitlesOn} selectedSubtitles: ${selectedSubtitles}`);
         return 0;
     }
 
@@ -73,14 +73,14 @@ export default function SettingsButton({
      * @param {*} episodeSource 
      */
     const handleStreamQualityChange = (selectedQualityHeight) => {
-        console.log(`Switching to Quality: ${selectedQualityHeight}p`);
+        // console.log(`Switching to Quality: ${selectedQualityHeight}p`);
         // Iterate over all the video qualities
         videoQuality.forEach((quality, index) => {
             if (quality.height === selectedQualityHeight) {
                 // Found Desired Video Quality, Set it
                 hlsInstance.currentLevel = index;
                 setCurrVideoQuality(quality.height);
-                console.log(`Successfully switched to: ${quality.height}p`);
+                // console.log(`Successfully switched to: ${quality.height}p`);
             }
         })
         // Failed to find the video quality
@@ -88,7 +88,7 @@ export default function SettingsButton({
 
     const openSettingsMenu = () => {
         // Open and Close the Main Settings Menu
-        console.log('Opening main menu:', activeMenu);  // Debug line
+        // console.log('Opening main menu:', activeMenu);  // Debug line
         
         if (activeMenu === null) {
             // OpenMenu
@@ -220,11 +220,11 @@ export default function SettingsButton({
 
                             <div className="divider-line"></div>
 
-                            {console.log(`animeSubtitles: ${animeSubtitles}`)}
+                            {/* {console.log(`animeSubtitles: ${animeSubtitles}`)} */}
 
                             {animeSubtitles ? (
                                 animeSubtitles.map((track, index) => {
-                                    console.log(`Track: ${track} and ${track.file} Type: ${track.kind}`);
+                                    // console.log(`Track: ${track} and ${track.file} Type: ${track.kind}`);
                                     if (track.kind === "captions") {
                                         // Found a valid subtitiles file, so return it
                                         return (
@@ -242,7 +242,7 @@ export default function SettingsButton({
                                             </div>
                                         );
                                     } else {
-                                        console.log("No Captions");
+                                        // console.log("No Captions");
                                         return null;
                                     }
                                 })
@@ -320,7 +320,7 @@ export default function SettingsButton({
                                     <li className="settings-menu-option-title" onClick={() => handleStreamQualityChange(qualityLevel.height)}>
                                         { qualityLevel.height }p
                                     </li>
-                                    {console.log(`qualityLevel.height: ${qualityLevel.height} currVideoQuality: ${currVideoQuality}`)}
+                                    {/* {console.log(`qualityLevel.height: ${qualityLevel.height} currVideoQuality: ${currVideoQuality}`)} */}
 
                                     {/* Add a tick icon beside the currently selected quality level */}
                                     {qualityLevel.height === currVideoQuality && (

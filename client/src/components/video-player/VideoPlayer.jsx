@@ -38,8 +38,8 @@ export default function VideoPlayer({ episodeUrl, episodeNumber, lastEpisode, ep
     const prevEpUrl = replaceEpisodeNumUrl(pathname, prevEp);
     const nextEpUrl = replaceEpisodeNumUrl(pathname, nextEp);
 
-    console.log('Previous Episode URL:', prevEpUrl);
-    console.log('Next Episode URL:', nextEpUrl);
+    // console.log('Previous Episode URL:', prevEpUrl);
+    // console.log('Next Episode URL:', nextEpUrl);
 
     return (
         <div className='video-player-container'>
