@@ -34,7 +34,7 @@ import { IconButton } from "@mui/material";
                             <a className="" aria-current="page" href="/">Home</a>
                         </li>
 
-                        {/* <li className="navbar-item">
+                        <li className="navbar-item">
                             <IconButton disabled={true} className="navbar-item-icon">
                                 <MosqueIcon />
                             </IconButton>
@@ -46,7 +46,7 @@ import { IconButton } from "@mui/material";
                                 <MovieFilterIcon />
                             </IconButton>
                             <a className="" href="/movies">Movies</a>
-                        </li> */}
+                        </li>
                     </ul>
                 </div>
                 
@@ -58,9 +58,9 @@ import { IconButton } from "@mui/material";
                     <SearchBar onSearchHandler={handleSearchSubmit}/>
 
                     {/** Login */}
-                    {/* <IconButton className="navbar-item-icon">
+                    <IconButton className="navbar-item-icon">
                         <LoginIcon />
-                    </IconButton> */}
+                    </IconButton>
                 </div>
 
                 {/** Create a menu button when viewport becomes too small, make visible only when viewport is small */}
