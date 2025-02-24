@@ -19,8 +19,8 @@ export default function AnimeLandingPage() {
     useEffect(() => {
         const retrieveLatestAnimeEpisodes = async () => {
             try {
-                // const res = await fetch("http://localhost:3000/api/anime/fetch-latest-anime");
-                const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-latest-anime");
+                const res = await fetch("http://localhost:3000/api/anime/fetch-latest-anime");
+                // const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-latest-anime");
     
                 if (!res.ok) {
                     throw new Error("Network response from Recent Anime was not ok.");
