@@ -61,9 +61,9 @@ export default function CustomVideoPlayer({ episodeNumber, episodeUrl, controls,
     const fetchM3U8File = async () => {
         try {
             // Build the proxyUrl using the provided Url - ProxyURL/episodeURL
-            const proxyUrl = `http://localhost:3001/${episodeUrl}`;
+            // const proxyUrl = `http://localhost:3001/${episodeUrl}`;
             // Proxy Server
-            // const proxyUrl = `https://pandaplay-proxy-backend.onrender.com/${episodeUrl}`;
+            const proxyUrl = `https://pandaplay-proxy-backend.onrender.com/${episodeUrl}`;
 
             // Library to play HLS streams in browsers that do not natively support it
             // Instance of HLS to load video and handle playback

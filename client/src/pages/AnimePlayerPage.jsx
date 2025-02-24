@@ -21,8 +21,8 @@ export default function AnimePlayerPage() {
 
     const getAnimeInfo = async (animeId) => {
         // API Call to get Anime Title
-        const res = await fetch("http://localhost:3000/api/anime/fetch-info", {
-        // const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-info", {
+        // const res = await fetch("http://localhost:3000/api/anime/fetch-info", {
+        const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-info", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -47,8 +47,8 @@ export default function AnimePlayerPage() {
     useEffect(() => {
         const retrieveAnimeStreamLink = async () => {
             try {
-                const res = await fetch("http://localhost:3000/api/anime/fetch-stream-link", {
-                // const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-stream-link", {
+                // const res = await fetch("http://localhost:3000/api/anime/fetch-stream-link", {
+                const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-stream-link", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -100,8 +100,8 @@ export default function AnimePlayerPage() {
         // API Call to retrieve list of episodes only need to be caught once
         const retrieveEpisodeList = async (animeId) => {
             try {
-                const res = await fetch("http://localhost:3000/api/anime/fetch-anime-episodes", {
-                // const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-anime-episodes", {
+                // const res = await fetch("http://localhost:3000/api/anime/fetch-anime-episodes", {
+                const res = await fetch("https://pandaplay-backend.onrender.com/api/anime/fetch-anime-episodes", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
